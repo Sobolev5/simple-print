@@ -61,9 +61,10 @@ def sprint_f(*args):
         try:
             variables = [x.strip() for x in re.compile(r'\((.+)\).*$').search(code).groups()[0].split(',')]    
         except:
-            variables = None
+            variables = []
 
-        if len(variables) != len(args):
+        if not args:
+            args = []
             variables = None
 
         if variables:              
