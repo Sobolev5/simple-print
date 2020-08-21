@@ -18,6 +18,10 @@ def sprint(*args):
         except:
             variables = []
 
+        if not args:
+            args = []
+            variables = None
+
         if len(variables) != len(args):
             variables = None
 
