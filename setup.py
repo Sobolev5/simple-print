@@ -3,7 +3,7 @@ import sys
 import setuptools
 
 __author__ = 'Sobolev Andrey <email.asobolev@gmail.com>'
-__version__ = '0.3'
+__version__ = '0.5'
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -18,6 +18,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
+    url="https://github.com/Sobolev5/simple-print/",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

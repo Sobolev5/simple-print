@@ -43,9 +43,9 @@ def sprint(*args):
                 print_string = ' :: '.join(print_array)  
 
     if print_string:        
-        cprint(f'{print_string} :: line {lineno}', color, 'on_cyan', attrs=['bold'])
+        cprint(f'{print_string} :: line {lineno}', color, attrs=['bold'])
     else:
-        cprint(f'{code} :: line {lineno}', color, 'on_cyan', attrs=['bold'])
+        cprint(f'{code} :: line {lineno}', color, attrs=['bold'])
 
 
 def sprint_f(*args):
