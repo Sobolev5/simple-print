@@ -1,7 +1,11 @@
+import os
 from simple_print import sprint
 
+DEBUG = os.getenv("DEBUG","").lower() in ("1", "true", "yes", "y")
 
 def test_print():
+    assert DEBUG, "Required DEBUG=True"
+
     types = (1, "yoda", (1,), [1], {1: 1}, {1}, True, None, lambda x: x, (x for x in range(2)), type)
     print(*types)
 

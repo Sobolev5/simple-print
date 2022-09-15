@@ -1,4 +1,5 @@
 import pika
+import pprint
 import orjson
 import traceback
 from secrets import token_hex
@@ -8,9 +9,9 @@ from typing import Optional, Union
 
 
 class BrokerMessage(BaseModel):
-    exchange: Optional[str] = '' 
-    routing_key: Optional[str] = 'simple_print'
-    tag: Optional[str] = 'tag'
+    exchange: Optional[str] = ""
+    routing_key: Optional[str] = "simple_print"
+    tag: Optional[str] = "tag"
     msg: Optional[dict] = {}
     uuid: Optional[str] = token_hex(16) 
     created: datetime = Field(default_factory=datetime.utcnow)
@@ -72,7 +73,7 @@ def throw(message:dict={}, uri:str=None, **kwargs) -> Union[None, str]:
             pass
 
 
-def catch(tag:Union[str, None]="tag", queue:str="simple_print", count:int=10, console:bool=False, uri:str=None, **kwargs) -> Union[None, list[str]]:
+def catch(tag:Union[str, None]="tag", queue:str="simple_print", count:int=10, console:bool=False, uri:str=None, **kwargs) -> Union[None, list[dict]]:
     """ 
     catch [get message from broker]:
     tag:str ~ message tag
@@ -102,7 +103,8 @@ def catch(tag:Union[str, None]="tag", queue:str="simple_print", count:int=10, co
                 channel.basic_ack(method_frame.delivery_tag)
 
     if console:
-        [print(body, "\n", "*" * 50) for body in messages]
+        for body in messages:
+            pprint.pprint(body)
     else:
         return messages
 
