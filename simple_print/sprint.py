@@ -49,7 +49,7 @@ def sprint(*args, c:str ="white", b:str ="", a:str="bold", p:bool=SIMPLE_PRINT_P
         for i, arg in enumerate(args):
             try:
                 arg_name = source.asttokens().get_text(call_node.args[i])
-                arg_name = f"{arg}" if arg_name == arg else f"{arg_name} = {arg}"
+                arg_name = f"{arg}" if arg_name == arg or arg_name.strip('"').strip("'") == arg else f"{arg_name} = {arg}"
             except:
                 arg_name = f"{arg}"
 
