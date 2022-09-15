@@ -10,17 +10,17 @@ DEBUG = os.getenv("DEBUG","").lower() in ("1", "true", "yes", "y")
 SIMPLE_PRINT_PATH_TO_FILE = os.getenv("SPRINT_PATH_TO_FILE","").lower() in ("1", "true", "yes", "y")
 
 
-def _colored_print(arg:Any, arg_name:str, c:str, b:str, a:str, p:str, lineno:int, filename:str) -> None:  
+def _colored_print(arg:Any, arg_name:str, c:str, b:str, a:str, p:str, function_name:str, lineno:int, filename:str) -> None:  
     if b:
         if p:
-            cprint(f">>> {arg_name} | type {type(arg)} | line {lineno} | file {filename}", c, b, attrs=[a])
+            cprint(f">>> {arg_name} | type {type(arg)} | func {function_name} | line {lineno} | file {filename}", c, b, attrs=[a])
         else:
-            cprint(f">>> {arg_name} | type {type(arg)} | line {lineno}", c, b, attrs=[a])
+            cprint(f">>> {arg_name} | type {type(arg)} | func {function_name} | line {lineno}", c, b, attrs=[a])
     else:
         if p:
-            cprint(f">>> {arg_name} | type {type(arg)} | line {lineno} | file {filename}", c, attrs=[a])
+            cprint(f">>> {arg_name} | type {type(arg)} | func {function_name} | line {lineno} | file {filename}", c, attrs=[a])
         else:
-            cprint(f">>> {arg_name} | type {type(arg)} | line {lineno}", c, attrs=[a])
+            cprint(f">>> {arg_name} | type {type(arg)} | func {function_name} | line {lineno}", c, attrs=[a])
 
 
 def sprint(*args, c:str ="white", b:str ="", a:str="bold", p:bool=SIMPLE_PRINT_PATH_TO_FILE, s:bool=False, **kwargs) -> Union[None, str]:
@@ -54,10 +54,10 @@ def sprint(*args, c:str ="white", b:str ="", a:str="bold", p:bool=SIMPLE_PRINT_P
                 arg_name = f"{arg}"
 
             if s:
-                arg_name = f"{arg_name} | {type(arg)} | line {lineno} | file {filename}" if p else f"{arg_name} | {type(arg)} | line {lineno}"
+                arg_name = f"{arg_name} | {type(arg)} | func {function_name} | line {lineno} | file {filename}" if p else f"{arg_name} | {type(arg)} | func {function_name} | line {lineno}"
                 arg_names.append(arg_name)
             else:
-                _colored_print(arg, arg_name, c, b, a, p, lineno, filename)
+                _colored_print(arg, arg_name, c, b, a, p, function_name, lineno, filename)
         
         if s:
             return ";".join(arg_names)
