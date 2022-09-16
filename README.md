@@ -6,7 +6,7 @@ Userful for `bash` console messages (debug) & `rabbitmq` proxy messages (logging
 https://github.com/Sobolev5/simple-print
 ```
 
-# For local development (minimal version)
+# For local development 
 ## Install
 To install run:
 ```no-highlight
