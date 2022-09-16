@@ -17,7 +17,6 @@ class BrokerMessage(BaseModel):
     created: datetime = Field(default_factory=datetime.utcnow)
 
 
-
 def throw(message:dict={}, uri:str=None, **kwargs) -> Union[None, str]:
     """ 
     throw [send message to broker]:
