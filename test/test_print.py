@@ -16,7 +16,7 @@ def test_print():
             case_1 = "multi arg example"
             sprint(case, case_1)       
         sprint(case)
-        sprint(case, c="green") 
+        sprint(case, c="green", i=i) 
         sprint(case, c="blue", b="on_white") 
         sprint(case, c="blue", b="on_white", a="underline") 
         sprint(case, c="blue", b="on_white", a="bold", p=True) 
