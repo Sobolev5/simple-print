@@ -11,12 +11,10 @@ SIMPLE_PRINT_PATH_TO_FILE = os.getenv("SPRINT_PATH_TO_FILE","").lower() in ("1",
 
 
 def _colored_print(arg:Any, arg_name:str, c:Union[None, str], b:Union[None, str], a:Union[None, str], p:bool, function_name:str, lineno:int, filename:str) -> None:  
-    prefix_1, prefix_2 = ('·······', '·······') if p else ('···', '···') 
     if p:       
-        cprint(f"{prefix_1} {arg_name} | type {type(arg)} | line {lineno} | func {function_name}", color=c, on_color=b, attrs=[a] if a else [])
-        cprint(f"{prefix_2} file {filename}", color=c, on_color=b, attrs=[a])
+        cprint(f"··· {arg_name} | type {type(arg)} | line {lineno} | func {function_name} | file {filename}", color=c, on_color=b, attrs=[a] if a else [])
     else:
-        cprint(f"{prefix_1} {arg_name} | type {type(arg)} | line {lineno} | func {function_name}", color=c, on_color=b, attrs=[a] if a else [])
+        cprint(f"··· {arg_name} | type {type(arg)} | line {lineno} | func {function_name}", color=c, on_color=b, attrs=[a] if a else [])
 
 
 def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[None, str]="bold", p:bool=SIMPLE_PRINT_PATH_TO_FILE, s:bool=False, **kwargs) -> Union[None, str]:
