@@ -18,7 +18,7 @@ def test_print():
         sprint(case)
         sprint(case, c="green") 
         sprint(case, c="blue", b="on_white") 
-        sprint(case, c="blue", b="on_white", a="bold") 
+        sprint(case, c="blue", b="on_white", a="underline") 
         sprint(case, c="blue", b="on_white", a="bold", p=True) 
         my_string = sprint(case, s=True) 
         print(my_string)

@@ -10,20 +10,16 @@ DEBUG = os.getenv("DEBUG","").lower() in ("1", "true", "yes", "y")
 SIMPLE_PRINT_PATH_TO_FILE = os.getenv("SPRINT_PATH_TO_FILE","").lower() in ("1", "true", "yes", "y")
 
 
-def _colored_print(arg:Any, arg_name:str, c:str, b:str, a:str, p:str, function_name:str, lineno:int, filename:str) -> None:  
-    if b:
-        if p:
-            cprint(f">>> {arg_name} | type {type(arg)} | func {function_name} | line {lineno} | file {filename}", c, b, attrs=[a])
-        else:
-            cprint(f">>> {arg_name} | type {type(arg)} | func {function_name} | line {lineno}", c, b, attrs=[a])
+def _colored_print(arg:Any, arg_name:str, c:Union[None, str], b:Union[None, str], a:Union[None, str], p:bool, function_name:str, lineno:int, filename:str) -> None:  
+    prefix_1, prefix_2 = ('·······', '·······') if p else ('···', '···') 
+    if p:       
+        cprint(f"{prefix_1} {arg_name} | type {type(arg)} | line {lineno} | func {function_name}", color=c, on_color=b, attrs=[a] if a else [])
+        cprint(f"{prefix_2} file {filename}", color=c, on_color=b, attrs=[a])
     else:
-        if p:
-            cprint(f">>> {arg_name} | type {type(arg)} | func {function_name} | line {lineno} | file {filename}", c, attrs=[a])
-        else:
-            cprint(f">>> {arg_name} | type {type(arg)} | func {function_name} | line {lineno}", c, attrs=[a])
+        cprint(f"{prefix_1} {arg_name} | type {type(arg)} | line {lineno} | func {function_name}", color=c, on_color=b, attrs=[a] if a else [])
 
 
-def sprint(*args, c:str ="white", b:str ="", a:str="bold", p:bool=SIMPLE_PRINT_PATH_TO_FILE, s:bool=False, **kwargs) -> Union[None, str]:
+def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[None, str]="bold", p:bool=SIMPLE_PRINT_PATH_TO_FILE, s:bool=False, **kwargs) -> Union[None, str]:
     """     
     sprint:
     с:str ~ colors: ["grey", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]
@@ -49,7 +45,8 @@ def sprint(*args, c:str ="white", b:str ="", a:str="bold", p:bool=SIMPLE_PRINT_P
         for i, arg in enumerate(args):
             try:
                 arg_name = source.asttokens().get_text(call_node.args[i])
-                arg_name = f"{arg}" if arg_name == arg or arg_name.strip('"').strip("'") == arg else f"{arg_name} = {arg}"
+                _ = arg_name == arg or arg_name.strip('"').strip("'") == arg or arg_name.startswith('f"') or arg_name.startswith("f'")
+                arg_name = f"{arg}" if _ else f"{arg_name} = {arg}"
             except:
                 arg_name = f"{arg}"
 
