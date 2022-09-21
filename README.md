@@ -35,7 +35,7 @@ my_string = sprint(master, s=True) # return as string
 my_string = sprint(master, s=True, p=True) # return as string with path to file 
 ```
 Result:   
-![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/common.png)
+![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/common.png)   
 `p` param is `False` by default, but you can override this behavior with `SIMPLE_PRINT_PATH_TO_FILE=True` in your local environment.
 
 ### Example with indent
