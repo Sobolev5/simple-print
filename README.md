@@ -15,12 +15,12 @@ pip install simple-print
 
 ### Print variables
 Function params:
-> `c` color [grey, red, green, yellow, blue, magenta, cyan, white]
-> `b` background [on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan]
-> `a` attribute  [bold, dark, underline, blink, reverse, concealed]
-> `p` path [with path to file]
-> `i` indent [indent 1..40]
-> `s` string [return as string]
+> `c` color [grey, red, green, yellow, blue, magenta, cyan, white]  
+> `b` background [on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan]  
+> `a` attribute  [bold, dark, underline, blink, reverse, concealed]  
+> `p` path [with path to file]  
+> `i` indent [indent 1..40]  
+> `s` string [return as string]  
 
 ```python
 from simple_print import sprint 
