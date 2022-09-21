@@ -31,10 +31,22 @@ def test_print():
     sprint(master)    
     sprint(master, c="blue") # colors: grey, red, green, yellow, blue, magenta, cyan, white. 
     sprint(master, c="blue", b="on_white") # backgrounds: on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan
-    sprint(master, c="blue", b="on_white", a="bold") # attributes: bold, dark, underline, blink, reverse, concealed
+    sprint(master, c="blue", b="on_white", a="underline") # attributes: bold, dark, underline, blink, reverse, concealed
     sprint(master, c="blue", b="on_white", a="bold", p=True) # 
     my_string = sprint(master, s=True) # return as string
     my_string = sprint(master, s=True, p=True) # return as string with path to file 
     print('\n\n')
 
     print(sprint.__doc__)
+    
+    
+def test_indent():
+    assert DEBUG, "Required DEBUG=True"
+
+    fruits = ["lemon", "orange", "banana"]
+    sprint(fruits, c="green")
+    
+    for fruit in fruits:
+        sprint(fruit, c="yellow", i=4)
+    
+    

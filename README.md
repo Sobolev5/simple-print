@@ -13,24 +13,44 @@ To install run:
 pip install simple-print
 ```
 
-Add the following line at the top of your *.py file:
+### Print variables
+Function params:
+> `c` color [grey, red, green, yellow, blue, magenta, cyan, white]
+> `b` background [on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan]
+> `a` attribute  [bold, dark, underline, blink, reverse, concealed]
+> `p` path [with path to file]
+> `i` indent [indent 1..40]
+> `s` string [return as string]
+
 ```python
 from simple_print import sprint 
-```
-Print your variables:
-```python
+
 master = "yoda"
-sprint(master)    
-sprint(master, c="blue") # colors: grey, red, green, yellow, blue, magenta, cyan, white. 
-sprint(master, c="blue", b="on_white") # backgrounds: on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan
-sprint(master, c="blue", b="on_white", a="bold") # attributes: bold, dark, underline, blink, reverse, concealed
-sprint(master, c="blue", b="on_white", a="bold", p=True) # 
+sprint(master) 
+sprint(master, c="blue") 
+sprint(master, c="blue", b="on_white") 
+sprint(master, c="blue", b="on_white", a="underline") 
+sprint(master, c="blue", b="on_white", a="bold", p=True) 
 my_string = sprint(master, s=True) # return as string
 my_string = sprint(master, s=True, p=True) # return as string with path to file 
 ```
-Open development console and see the result:
-![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/screenshot.png)
+Result:
+![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/common.png)
 `p` param is `False` by default, but you can override this behavior with `SIMPLE_PRINT_PATH_TO_FILE=True` in your local environment.
+
+### Example with indent
+For indent use `i` param:
+```python
+
+def test_indent():
+    fruits = ["lemon", "orange", "banana"]
+    sprint(fruits, c="green")  
+    for fruit in fruits:
+        sprint(fruit, c="yellow", i=4)
+```
+Result:
+![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/indent.png)
+
 ### Disable printing
 Stop printing:
 ```sh
