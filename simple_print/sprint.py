@@ -48,7 +48,7 @@ def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[N
         for j, arg in enumerate(args):
             try:
                 arg_name = source.asttokens().get_text(call_node.args[j])
-                _ = arg_name == arg or arg_name.strip('"').strip("'") == arg or arg_name.startswith('f"') or arg_name.startswith("f'")
+                _ = arg_name == arg or arg_name.strip('"').strip("'") == arg or arg_name.startswith('f"') or arg_name.startswith("f'") or ".format" in arg_name
                 arg_name = f"{arg}" if _ else f"{arg_name} = {arg}"
             except:
                 arg_name = f"{arg}"
