@@ -21,7 +21,7 @@ def _colored_print(arg:Any, arg_name:str, c:Union[None, str], b:Union[None, str]
         cprint(f"{arg_name} | type {type(arg)} | line {lineno} | func {function_name}", color=c, on_color=b, attrs=[a] if a else [])
 
 
-def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[None, str]="bold", i:int=0, p:bool=SIMPLE_PRINT_PATH_TO_FILE, s:bool=False, **kwargs) -> Union[None, str]:
+def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[None, str]="bold", i:int=0, p:bool=SIMPLE_PRINT_PATH_TO_FILE, s:bool=False, f:bool=False, **kwargs) -> Union[None, str]:
     """     
     sprint:
     с:str ~ colors: ["grey", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]
@@ -30,12 +30,12 @@ def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[N
     i:int ~ indent: 1-40
     p:bool ~ path: show path to file    
     s:bool ~ string: return as string
-
+    f:bool ~ force: print anyway (override DEBUG)
     github: https://github.com/Sobolev5/simple-print
 
     """
 
-    if DEBUG:
+    if DEBUG or f:
         stack = traceback.extract_stack()
         filename, lineno, function_name, code = stack[-2]
         call_frame = inspect.currentframe().f_back

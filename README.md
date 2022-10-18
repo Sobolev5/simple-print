@@ -21,6 +21,7 @@ Function params:
 > `p` path [with path to file]  
 > `i` indent [indent 1..40]  
 > `s` string [return as string]  
+> `f` force print [override DEBUG=False]  
 
 ```python
 from simple_print import sprint 
