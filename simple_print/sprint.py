@@ -52,6 +52,12 @@ def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[N
                 arg_name = f"{arg}" if _ else f"{arg_name} = {arg}"
             except:
                 arg_name = f"{arg}"
+                
+            try:
+                if hasattr(arg, "id") and arg.id:
+                    arg_name += f" ID={arg.id}"
+            except:
+                pass
 
             if s:
                 arg_name = f"{arg_name} | {type(arg)} | func {function_name} | line {lineno} | file {filename}" if p else f"{arg_name} | {type(arg)} | func {function_name} | line {lineno}"
