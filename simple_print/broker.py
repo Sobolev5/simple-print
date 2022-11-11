@@ -17,11 +17,12 @@ class BrokerMessage(BaseModel):
     created: datetime = Field(default_factory=datetime.utcnow)
 
 
-def throw(message:dict={}, uri:str=None, **kwargs) -> Union[None, str]:
+def throw(message:dict={}, uri:str=None, ttl:int=60, **kwargs) -> Union[None, str]:
     """ 
     throw [send message to broker]:
     message:dict ~ proxy message to broker [now only rabbitmq]   
     uri: str ~ broker uri [now only rabbitmq]  
+    ttl: int ~ message time to live (in minutes)
     send json message to amq.direct.simple_print (by default)
     
     message dict schema:
@@ -38,7 +39,8 @@ def throw(message:dict={}, uri:str=None, **kwargs) -> Union[None, str]:
 
     if message:
         broker_msg = BrokerMessage(**message)
-        assert uri, "Please specify broker uri"           
+        assert uri, "Please specify broker uri"         
+        assert isinstance(ttl, int) and ttl > 0, "ttl must be positive integer"   
         if broker_msg.exchange: 
             assert broker_msg.exchange.isascii() and len(broker_msg.exchange) < 256, "Invalid exchange name"     
         if broker_msg.routing_key:
@@ -65,7 +67,7 @@ def throw(message:dict={}, uri:str=None, **kwargs) -> Union[None, str]:
 
         try:
             body = orjson.dumps(body, default=str)      
-            channel.basic_publish(exchange=broker_msg.exchange, routing_key=broker_msg.routing_key, properties=pika.BasicProperties(expiration=str(60000*60)), body=body)                
+            channel.basic_publish(exchange=broker_msg.exchange, routing_key=broker_msg.routing_key, properties=pika.BasicProperties(expiration=str(60000*ttl)), body=body)                
             connection.close()
         except Exception as e:
             # catch any exception. do nothing.
