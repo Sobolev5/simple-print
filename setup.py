@@ -15,7 +15,7 @@ setuptools.setup(
     },
     author='Sobolev Andrey',
     author_email='email.asobolev@gmail.com',
-    description='Poweful function that will help you with debugging.',
+    description='Powerful debugging & logging tool for Python.',
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),

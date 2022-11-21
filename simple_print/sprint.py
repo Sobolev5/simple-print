@@ -11,7 +11,7 @@ SIMPLE_PRINT_PATH_TO_FILE = os.getenv("SPRINT_PATH_TO_FILE","").lower() in ("1",
 
 
 def _colored_print(arg:Any, arg_name:str, c:Union[None, str], b:Union[None, str], a:Union[None, str], i:int, p:bool, function_name:str, lineno:int, filename:str) -> None:  
-    
+   
     if i in range(1, 41):
         arg_name = "{} {}".format(" " * i, arg_name)
         
@@ -30,7 +30,7 @@ def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[N
     i:int ~ indent: 1-40
     p:bool ~ path: show path to file    
     s:bool ~ string: return as string
-    f:bool ~ force: print anyway (override DEBUG)
+    f:bool ~ force: print anyway (override DEBUG ENV)
     github: https://github.com/Sobolev5/simple-print
 
     """

@@ -38,9 +38,11 @@ def throw(message:dict={}, uri:str=None, ttl:int=60, **kwargs) -> Union[None, st
     """
 
     if message:
-        broker_msg = BrokerMessage(**message)
+
         assert uri, "Please specify broker uri"         
         assert isinstance(ttl, int) and ttl > 0, "ttl must be positive integer"   
+
+        broker_msg = BrokerMessage(**message)
         if broker_msg.exchange: 
             assert broker_msg.exchange.isascii() and len(broker_msg.exchange) < 256, "Invalid exchange name"     
         if broker_msg.routing_key:
@@ -89,6 +91,7 @@ def catch(tag:Union[str, None]="tag", queue:str="simple_print", count:int=10, co
 
     assert uri, "Please specify broker uri"
     assert queue.isascii() and len(queue) < 256, "Invalid queue name"
+    
     if tag: 
         assert tag.isascii() and len(tag) < 256, "Invalid tag name"
 

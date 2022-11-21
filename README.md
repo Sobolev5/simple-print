@@ -1,5 +1,5 @@
 # Simple print
-Powerful debugging & logging function.
+Powerful debugging & logging tool for Python.  
 Userful for `bash` console messages (debug) & `rabbitmq` proxy messages (logging).
 
 ```no-highlight
@@ -90,6 +90,6 @@ pytest test/test_broker.py -s
 # TODO
 > Kafka support & PyQt support
 
-
+   
 # Try my free time tracker
 My free time tracker for developers [Workhours.space](https://workhours.space/). 
