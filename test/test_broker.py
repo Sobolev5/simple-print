@@ -2,7 +2,7 @@ from simple_print import throw, catch
 
 def test_broker(): 
 
-    uri = "amqp://admin:admin@5.187.4.179:55672/vhost"
+    uri = "amqp://admin:pass@0.0.0.0:5672/vhost"
     msg = {
         "hello": "world"
     }

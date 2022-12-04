@@ -1,5 +1,5 @@
 import pika
-import pprint
+import logging
 import orjson
 import traceback
 from secrets import token_hex
@@ -52,29 +52,31 @@ def throw(message:dict={}, uri:str=None, ttl:int=60, **kwargs) -> Union[None, st
         stack = traceback.extract_stack()
         filename, lineno, function_name, code = stack[-2]
 
-        connection = pika.BlockingConnection(pika.URLParameters(uri))
-        channel = connection.channel()
-        
-        if not broker_msg.exchange and broker_msg.routing_key == "simple_print":
-            channel.queue_declare(queue="simple_print", durable=True)  
-
-        body = {
-            "uuid": broker_msg.uuid,
-            "tag": broker_msg.tag,
-            "msg": broker_msg.msg,      
-            "filename": filename,
-            "function_name": function_name,
-            "lineno": lineno, 
-            "created": broker_msg.created.strftime("%Y-%m-%d %H:%M:%S") 
-        }
+        try:
+            connection = pika.BlockingConnection(pika.URLParameters(uri))
+            channel = connection.channel()      
+            if not broker_msg.exchange and broker_msg.routing_key == "simple_print":
+                channel.queue_declare(queue="simple_print", durable=True)  
+        except Exception as e:
+            logging.exception(f"simple-print.broker [CONNECTION ERROR] {e}")     
 
         try:
+
+            body = {
+                "uuid": broker_msg.uuid,
+                "tag": broker_msg.tag,
+                "msg": broker_msg.msg,      
+                "filename": filename,
+                "function_name": function_name,
+                "lineno": lineno, 
+                "created": broker_msg.created.strftime("%Y-%m-%d %H:%M:%S") 
+            }
+
             body = orjson.dumps(body, default=str)      
             channel.basic_publish(exchange=broker_msg.exchange, routing_key=broker_msg.routing_key, properties=pika.BasicProperties(expiration=str(60000*ttl)), body=body)                
             connection.close()
         except Exception as e:
-            # catch any exception. do nothing.
-            pass
+            logging.exception(f"simple-print.broker [THROW ERROR] {e}")     
 
 
 def catch(tag:Union[str, None]=None, queue:str="simple_print", count:int=10, console:bool=False, uri:str=None, **kwargs) -> list[dict]:
