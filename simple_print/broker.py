@@ -6,6 +6,7 @@ from secrets import token_hex
 from datetime import datetime
 from pydantic import Field, BaseModel
 from typing import Optional, Union
+from .sprint import sprint
 
 
 class BrokerMessage(BaseModel):
@@ -76,13 +77,13 @@ def throw(message:dict={}, uri:str=None, ttl:int=60, **kwargs) -> Union[None, st
             pass
 
 
-def catch(tag:Union[str, None]="tag", queue:str="simple_print", count:int=10, console:bool=False, uri:str=None, **kwargs) -> Union[None, list[dict]]:
+def catch(tag:Union[str, None]="tag", queue:str="simple_print", count:int=10, debug:bool=False, uri:str=None, **kwargs) -> Union[None, list[dict]]:
     """ 
     catch [get message from broker]:
     tag:str ~ message tag
     queue:str ~ message queue
     count:int ~ messages num
-    console:bool ~ print to console
+    debug:bool ~ show log
     uri: str ~ broker uri [now only rabbitmq]  
 
     github: https://github.com/Sobolev5/simple-print
@@ -98,17 +99,23 @@ def catch(tag:Union[str, None]="tag", queue:str="simple_print", count:int=10, co
     messages = []
     connection = pika.BlockingConnection(pika.URLParameters(uri))
     channel = connection.channel()
+    if debug:
+        sprint(connection, f=1)
+        sprint(channel, f=1)
+
     for _ in range(count):
         method_frame, header_frame, body = channel.basic_get(queue)
+        if debug:
+            sprint(body, i=4, f=1)    
         if method_frame:
             message = orjson.loads(body.decode())
             if not tag or message["tag"] == tag:
                 messages.append(message)
                 channel.basic_ack(method_frame.delivery_tag)
 
-    if console:
-        for body in messages:
-            pprint.pprint(body)
-    else:
-        return messages
+    if debug:
+        for message in messages:
+            sprint(message, i=4, f=1)
+
+    return messages
 

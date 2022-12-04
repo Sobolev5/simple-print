@@ -59,7 +59,7 @@ export DEBUG=False
 ```
 ### Test 
 ```sh
-pytest test/test_print.py -s
+export DEBUG=True && pytest test/test_print.py -s
 ```
 # For catch messages on production server 
 ## Install
@@ -74,7 +74,7 @@ from simple_print import throw, catch
 ```
 Now you can send messages to rabbitmq queue `amq.direct`.`simple_print` (by default):
 ```python
-throw({"tag":"tag", "msg":{"any_key":"any val"}, uri="amqp://admin:pass@0.0.0.0:5672/vhost") # default queue
+throw({"tag":"tag", "msg":{"any_key":"any val"}}, uri="amqp://admin:pass@0.0.0.0:5672/vhost") # default queue
 throw({"exchange":"any_exchange", "routing_key":"any_key", "tag":"tag", "msg":{"any_key":"any val"}}, uri="amqp://admin:pass@0.0.0.0:5672/vhost") # with custom routing key
  ``` 
 Catch last 10 messages from RabbitMQ:
@@ -87,9 +87,9 @@ catch(queue="queue", tag="tag", count=10, console=True, uri="amqp://admin:pass@0
 pytest test/test_broker.py -s
 ```
 
-# TODO
-> Kafka support & PyQt support
+# Integrations
+`simple-print[broker]` is default logger for `upserver` (montoring & logging system).  
+Go to https://github.com/Sobolev5/upserver for further instructions.
 
-   
-# Try my free time tracker
-My free time tracker for developers [Workhours.space](https://workhours.space/). 
+# Time tracker for developers
+Use [Workhours.space](https://workhours.space/) for your working time tracking. It is free.

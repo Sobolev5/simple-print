@@ -8,7 +8,4 @@ def test_broker():
     }
 
     throw({"msg": msg}, uri=uri)
-    catch(console=True, uri=uri)
-
-    print(throw.__doc__)
-    print(catch.__doc__)
+    catch(debug=True, uri=uri)
