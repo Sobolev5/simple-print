@@ -6,36 +6,49 @@ from termcolor import cprint
 from executing import Source
 
 
-DEBUG = os.getenv("DEBUG","").lower() in ("1", "true", "yes", "y")
-SIMPLE_PRINT_PATH_TO_FILE = os.getenv("SPRINT_PATH_TO_FILE","").lower() in ("1", "true", "yes", "y")
+if os.getenv("SIMPLE_PRINT_ENABLED"):
+    if os.getenv("SIMPLE_PRINT_ENABLED").lower() in ("1", "true", "yes", "y"):
+        SIMPLE_PRINT_ENABLED = True
+    else:
+        SIMPLE_PRINT_ENABLED = False
+else:
+    SIMPLE_PRINT_ENABLED = True
 
 
-def _colored_print(arg:Any, arg_name:str, c:Union[None, str], b:Union[None, str], a:Union[None, str], i:int, p:bool, function_name:str, lineno:int, filename:str) -> None:  
-   
+if os.getenv("SIMPLE_PRINT_SHOW_PATH_TO_FILE"):
+    if os.getenv("SIMPLE_PRINT_SHOW_PATH_TO_FILE").lower() in ("1", "true", "yes", "y"):
+        SIMPLE_PRINT_SHOW_PATH_TO_FILE = True
+    else:
+        SIMPLE_PRINT_SHOW_PATH_TO_FILE = False    
+else:
+    SIMPLE_PRINT_SHOW_PATH_TO_FILE = False
+
+
+def _colored_print(arg:Any, arg_name:str, c:Union[None, str], b:Union[None, str], a:Union[None, str], i:int, p:bool, function_name:str, lineno:int, filename:str) -> None:     
+
     if i in range(1, 41):
-        arg_name = "{} {}".format(" " * i, arg_name)
-        
+        arg_name = "{} {}".format(" " * i, arg_name)        
+    
     if p:       
         cprint(f"{arg_name} | type {type(arg)} | line {lineno} | func {function_name} | file {filename}", color=c, on_color=b, attrs=[a] if a else [])
     else:
         cprint(f"{arg_name} | type {type(arg)} | line {lineno} | func {function_name}", color=c, on_color=b, attrs=[a] if a else [])
 
 
-def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[None, str]="bold", i:int=0, p:bool=SIMPLE_PRINT_PATH_TO_FILE, s:bool=False, f:bool=False, **kwargs) -> Union[None, str]:
+def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[None, str]="bold", i:int=0, p:bool=SIMPLE_PRINT_SHOW_PATH_TO_FILE, s:bool=False, f:bool=False, **kwargs) -> Union[None, str]:
     """     
-    sprint:
-    с:str ~ colors: ["grey", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]
-    b:str ~ backgrounds: ["on_grey", "on_red", "on_green", "on_yellow", "on_blue", "on_magenta", "on_cyan"]
-    a:str ~ attributes: bold, dark, underline, blink, reverse, concealed 
-    i:int ~ indent: 1-40
-    p:bool ~ path: show path to file    
-    s:bool ~ string: return as string
-    f:bool ~ force: print anyway (override DEBUG ENV)
-    github: https://github.com/Sobolev5/simple-print
-
+    с:str ~ colors: ["grey", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]  
+    b:str ~ backgrounds: ["on_grey", "on_red", "on_green", "on_yellow", "on_blue", "on_magenta", "on_cyan"]  
+    a:str ~ attributes: bold, dark, underline, blink, reverse, concealed   
+    i:int ~ indent: 1-40  
+    p:bool ~ path: show path to file       
+    s:bool ~ string: return as string  
+    f:bool ~ force: print anyway (override DEBUG ENV if exist)  
+    github: https://github.com/Sobolev5/simple-print  
+ 
     """
 
-    if DEBUG or f:
+    if SIMPLE_PRINT_ENABLED or f:
         stack = traceback.extract_stack()
         filename, lineno, function_name, code = stack[-2]
         call_frame = inspect.currentframe().f_back
@@ -48,8 +61,13 @@ def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[N
         for j, arg in enumerate(args):
             try:
                 arg_name = source.asttokens().get_text(call_node.args[j])
-                _ = arg_name == arg or arg_name.strip('"').strip("'") == arg or arg_name.startswith('f"') or arg_name.startswith("f'") or ".format" in arg_name
-                arg_name = f"{arg}" if _ else f"{arg_name} = {arg}"
+                arg_name_not_required = arg_name == arg or \
+                                arg_name.strip('"').strip("'") == arg or \
+                                arg_name.startswith('f"') or \
+                                arg_name.startswith("f'") or \
+                                ".format" in arg_name or \
+                                "%" in arg_name
+                arg_name = f"{arg}" if arg_name_not_required else f"{arg_name} = {arg}"
             except:
                 arg_name = f"{arg}"
                 

@@ -1,12 +1,11 @@
 # Simple print
-Powerful debugging & logging tool for Python.  
-Userful for `bash` console messages (debug) & `rabbitmq` proxy messages (logging).
+Powerful debugging tool for Python.  
+Userful for `bash` console messages.
 
 ```no-highlight
 https://github.com/Sobolev5/simple-print
 ```
 
-# For local development 
 ## Install
 To install run:
 ```no-highlight
@@ -21,7 +20,7 @@ Function params:
 > `p` path [with path to file]  
 > `i` indent [indent 1..40]  
 > `s` string [return as string]  
-> `f` force print [override DEBUG=False]  
+> `f` force print [ignore SIMPLE_PRINT_ENABLED=False for docker production logs for example]  
 
 ```python
 from simple_print import sprint 
@@ -52,44 +51,18 @@ def test_indent():
 Result:   
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/indent.png)
 
-### Disable printing
-Stop printing:
+### ENV
+Stop printing:  
 ```sh
-export DEBUG=False
+export SIMPLE_PRINT_ENABLED=False
 ```
+  
+Always show path to file:  
+```sh
+export SIMPLE_PRINT_SHOW_PATH_TO_FILE=True
+```
+
 ### Test 
 ```sh
-export DEBUG=True && pytest test/test_print.py -s
+pytest test/test_print.py -s
 ```
-# For catch messages on production server 
-## Install
-To install run:
-```no-highlight
-pip install simple-print[broker]
-```
-
-Add the following line at the top of your *.py file:
-```python
-from simple_print import throw, catch 
-```
-Now you can send messages to rabbitmq queue `amq.direct`.`simple_print` (by default):
-```python
-throw({"tag":"tag", "msg":{"any_key":"any val"}}, uri="amqp://admin:pass@0.0.0.0:5672/vhost") # default queue
-throw({"exchange":"any_exchange", "routing_key":"any_key", "tag":"tag", "msg":{"any_key":"any val"}}, uri="amqp://admin:pass@0.0.0.0:5672/vhost") # with custom routing key
- ``` 
-Catch last 10 messages from RabbitMQ:
-```python
-catch(tag="tag", count=10, uri="amqp://admin:pass@0.0.0.0:5672/vhost") # default queue
-catch(queue="queue", tag="tag", count=10, console=True, uri="amqp://admin:pass@0.0.0.0:5672/vhost") # custom queue
-```
-### Test 
-```sh
-pytest test/test_broker.py -s
-```
-
-# Integrations
-`simple-print[broker]` is default logger for `upserver` (montoring & logging system).  
-Go to https://github.com/Sobolev5/upserver for further instructions.
-
-# Time tracker for developers
-Use [Workhours.space](https://workhours.space/) for your working time tracking. It is free.

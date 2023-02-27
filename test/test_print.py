@@ -1,12 +1,9 @@
-import os
 from simple_print import sprint
 
-DEBUG = os.getenv("DEBUG","").lower() in ("1", "true", "yes", "y")
 
 def test_print():
     
-    assert DEBUG, "Required DEBUG=True"
-
+    # common
     types = (1, "yoda", (1,), [1], {1: 1}, {1}, True, None, lambda x: x, (x for x in range(2)), type)
     print(*types)
 
@@ -25,7 +22,19 @@ def test_print():
         print(my_string)
         my_string = sprint(case, s=True, p=True) 
         print(my_string)
-        
+
+    # f string
+    some_var = "some_value" 
+    sprint(f"some_var={some_var}")
+
+    # format
+    some_var = "some_value" 
+    sprint("some_var={}".format(some_var))
+
+    # %
+    some_var = "some_value" 
+    sprint("some_var=%s" % some_var)
+
     # README.md case
     print('\n\n')
     master = "yoda"
@@ -37,12 +46,10 @@ def test_print():
     my_string = sprint(master, s=True) # return as string
     my_string = sprint(master, s=True, p=True) # return as string with path to file 
     print('\n\n')
-
     print(sprint.__doc__)
     
     
 def test_indent():
-    assert DEBUG, "Required DEBUG=True"
 
     fruits = ["lemon", "orange", "banana"]
     sprint(fruits, c="green")
