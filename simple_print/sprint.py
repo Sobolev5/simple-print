@@ -43,7 +43,7 @@ def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[N
     i:int ~ indent: 1-40  
     p:bool ~ path: show path to file       
     s:bool ~ string: return as string  
-    f:bool ~ force: print anyway (override DEBUG ENV if exist)  
+    f:bool ~ force: print anyway (override SIMPLE_PRINT_ENABLED=False)  
     github: https://github.com/Sobolev5/simple-print  
  
     """
