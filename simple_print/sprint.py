@@ -1,9 +1,12 @@
 import os
+import io
+import sys
 import inspect
 import traceback
 from typing import Any, Union
 from termcolor import cprint
 from executing import Source
+from contextlib import contextmanager
 
 
 if os.getenv("SIMPLE_PRINT_ENABLED"):
@@ -43,7 +46,7 @@ def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[N
     i:int ~ indent: 1-40  
     p:bool ~ path: show path to file       
     s:bool ~ string: return as string  
-    f:bool ~ force: print anyway (override SIMPLE_PRINT_ENABLED=False)  
+    f:bool ~ force: print anyway (override DEBUG ENV if exist)  
     github: https://github.com/Sobolev5/simple-print  
  
     """
@@ -85,4 +88,28 @@ def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[N
         
         if s:
             return ";".join(arg_names)
+
+
+@contextmanager
+def SprintErr():
+
+    def format_exception(ei) -> str:
+        sio = io.StringIO()
+        tb = ei[2]
+        traceback.print_exception(ei[0], ei[1], tb, None, sio)
+        s = sio.getvalue()
+        sio.close()
+        if s[-1:] == "\n":
+            s = s[:-1]
+        return s
+
+    cprint("\nSprintErr -> looking for errors [start ok]", color="green")
+    try:
+        yield 
+    except Exception as e:
+        ei = sys.exc_info()
+        print(format_exception(ei))
+    finally:
+        cprint("SprintErr -> looking for errors [finish ok]\n", color="green")
+
 

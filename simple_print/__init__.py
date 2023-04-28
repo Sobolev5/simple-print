@@ -1,4 +1,4 @@
 from .sprint import (
-    sprint
+    sprint, SprintErr
 )
 

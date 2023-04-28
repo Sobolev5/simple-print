@@ -51,6 +51,17 @@ def test_indent():
 Result:   
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/indent.png)
 
+
+### Pretty errors
+Show errors with pretty traceback:  
+```python
+from simple_print import SprintErr
+
+with SprintErr():
+    raise ValueError
+```
+
+
 ### ENV
 Stop printing:  
 ```sh
