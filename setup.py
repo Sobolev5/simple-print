@@ -1,7 +1,7 @@
 import setuptools
 
 __author__ = 'Sobolev Andrey <email.asobolev@gmail.com>'
-__version__ = '1.7.1'
+__version__ = '1.7.2'
 
 with open("README.md", "r") as fh:
     long_description = fh.read()

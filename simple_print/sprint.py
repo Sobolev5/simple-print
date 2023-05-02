@@ -91,7 +91,7 @@ def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[N
 
 
 @contextmanager
-def SprintErr():
+def SprintErr(DEBUG=True):
 
     def format_exception(ei) -> str:
         sio = io.StringIO()
@@ -103,13 +103,17 @@ def SprintErr():
             s = s[:-1]
         return s
 
-    cprint("\nSprintErr -> looking for errors [start ok]", color="green")
-    try:
-        yield 
-    except Exception as e:
-        ei = sys.exc_info()
-        print(format_exception(ei))
-    finally:
-        cprint("SprintErr -> looking for errors [finish ok]\n", color="green")
+    if DEBUG:
+        stack = traceback.extract_stack()
+        filename, lineno, function_name, code = stack[-3]
+
+        cprint(f"\nSprintErr. filename={filename} lineno={lineno} [ START OK ]", color="green")
+        try:
+            yield 
+        except Exception as e:
+            ei = sys.exc_info()
+            print(format_exception(ei))
+        finally:
+            cprint(f"SprintErr. filename={filename} lineno={lineno} [ FINISH OK ]\n", color="yellow")
 
 
