@@ -38,7 +38,7 @@ def _colored_print(arg:Any, arg_name:str, c:Union[None, str], b:Union[None, str]
         cprint(f"{arg_name} | type {type(arg)} | line {lineno} | func {function_name}", color=c, on_color=b, attrs=[a] if a else [])
 
 
-def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[None, str]="bold", i:int=0, p:bool=SIMPLE_PRINT_SHOW_PATH_TO_FILE, s:bool=False, f:bool=False, **kwargs) -> Union[None, str]:
+def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[None, str]=None, i:int=0, p:bool=SIMPLE_PRINT_SHOW_PATH_TO_FILE, s:bool=False, f:bool=False, **kwargs) -> Union[None, str]:
     """     
     с:str ~ colors: ["grey", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]  
     b:str ~ backgrounds: ["on_grey", "on_red", "on_green", "on_yellow", "on_blue", "on_magenta", "on_cyan"]  
