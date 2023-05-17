@@ -1,15 +1,18 @@
 import setuptools
 
+
 __author__ = 'Sobolev Andrey <email.asobolev@gmail.com>'
-__version__ = '1.7.2'
+__version__ = '1.7.4'
+
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+
 setuptools.setup(
     name='simple-print',
     version=__version__,
-    install_requires=['termcolor==1.1.0', 'executing==0.8.1', 'asttokens==2.0.5', 'typing-extensions>=4.1.0'],
+    install_requires=['termcolor==1.1.0', 'executing==1.2.0', 'asttokens==2.2.1', 'typing-extensions>=4.1.0'],
     author='Sobolev Andrey',
     author_email='email.asobolev@gmail.com',
     description='Powerful debugging tool for Python.',

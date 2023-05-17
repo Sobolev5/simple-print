@@ -33,9 +33,9 @@ def _colored_print(arg:Any, arg_name:str, c:Union[None, str], b:Union[None, str]
         arg_name = "{} {}".format(" " * i, arg_name)        
     
     if p:       
-        cprint(f"{arg_name} | type {type(arg)} | line {lineno} | func {function_name} | file {filename}", color=c, on_color=b, attrs=[a] if a else [])
+        cprint(f"░ {arg_name} | type {type(arg)} | line {lineno} | func {function_name} | file {filename}", color=c, on_color=b, attrs=[a] if a else [])
     else:
-        cprint(f"{arg_name} | type {type(arg)} | line {lineno} | func {function_name}", color=c, on_color=b, attrs=[a] if a else [])
+        cprint(f"░ {arg_name} | type {type(arg)} | line {lineno} | func {function_name}", color=c, on_color=b, attrs=[a] if a else [])
 
 
 def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[None, str]=None, i:int=0, p:bool=SIMPLE_PRINT_SHOW_PATH_TO_FILE, s:bool=False, f:bool=False, **kwargs) -> Union[None, str]:
@@ -47,8 +47,7 @@ def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[N
     p:bool ~ path: show path to file       
     s:bool ~ string: return as string  
     f:bool ~ force: print anyway (override DEBUG ENV if exist)  
-    github: https://github.com/Sobolev5/simple-print  
- 
+    github: https://github.com/Sobolev5/simple-print   
     """
 
     if SIMPLE_PRINT_ENABLED or f:
@@ -62,8 +61,12 @@ def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[N
             arg_names = []
 
         for j, arg in enumerate(args):
-            try:
-                arg_name = source.asttokens().get_text(call_node.args[j])
+
+            try:       
+                try:
+                    arg_name = source.asttokens().get_text(call_node.args[j])
+                except:
+                    arg_name = code.replace("sprint", "", 1)[1:-1]  
                 arg_name_not_required = arg_name == arg or \
                                 arg_name.strip('"').strip("'") == arg or \
                                 arg_name.startswith('f"') or \
@@ -71,7 +74,7 @@ def sprint(*args, c:Union[None, str]="white", b:Union[None, str]=None, a:Union[N
                                 ".format" in arg_name or \
                                 "%" in arg_name
                 arg_name = f"{arg}" if arg_name_not_required else f"{arg_name} = {arg}"
-            except:
+            except Exception as e:
                 arg_name = f"{arg}"
                 
             try:
