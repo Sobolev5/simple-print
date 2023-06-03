@@ -110,13 +110,14 @@ def SprintErr(DEBUG=True):
         stack = traceback.extract_stack()
         filename, lineno, function_name, code = stack[-3]
 
-        cprint(f"\nSprintErr. filename={filename} lineno={lineno} [ START OK ]", color="green")
+        cprint(f"░░░░░░░░░░ SprintErr. f_name={filename} lineno={lineno} [ ENTER ]", color="green")
         try:
             yield 
         except Exception as e:
+            cprint(f"░░░░░░░░░░ SprintErr. f_name={filename} lineno={lineno} [ ERRORS FOUND ]\n", color="red")
             ei = sys.exc_info()
             print(format_exception(ei))
         finally:
-            cprint(f"SprintErr. filename={filename} lineno={lineno} [ FINISH OK ]\n", color="yellow")
+            cprint(f"░░░░░░░░░░ SprintErr. f_name={filename} lineno={lineno} [ EXIT ]\n", color="green")
 
 

@@ -75,5 +75,5 @@ export SIMPLE_PRINT_SHOW_PATH_TO_FILE=True
 
 ### Test 
 ```sh
-pytest test/test_print.py -s
+tox
 ```

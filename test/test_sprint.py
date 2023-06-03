@@ -2,6 +2,7 @@ from simple_print import sprint
 
 
 def test_print():
+    # pytest test/test_sprint.py::test_print -rP
     
     # common
     types = (1, "yoda", (1,), [1], {1: 1}, {1}, True, None, lambda x: x, (x for x in range(2)), type)
@@ -50,6 +51,7 @@ def test_print():
     
     
 def test_indent():
+    # pytest test/test_sprint.py::test_indent -rP
 
     fruits = ["lemon", "orange", "banana"]
     sprint(fruits, c="green")
