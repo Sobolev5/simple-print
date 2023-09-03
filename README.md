@@ -13,7 +13,7 @@ pip install simple-print
 ```
 
 ### Print variables with names
-Full example [you can see here.](tests/test_sprint.py)
+Full example [you can see here.](https://github.com/Sobolev5/simple-print/blob/master/tests/test_sprint.py)
 ```python
 master = "yoda" # variable name master
 sprint(master) 
@@ -23,8 +23,7 @@ sprint(master, c="blue", b="on_white", a="underline")
 sprint(master, c="blue", b="on_white", a="bold", p=True) 
 my_string = sprint(master, s=True) # return as string
 my_string = sprint(master, s=True, p=True) # return as string with path to file 
-```
-Result:   
+``` 
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/common.png)   
 `p` param is `False` by default, but you can override this behavior with `SIMPLE_PRINT_PATH_TO_FILE=True` in your local environment.
 
@@ -39,7 +38,7 @@ Fn params:
 
 
 ### Example with indent
-For indent use `i` param. Full example [you can see here.](tests/test_sprint.py)
+For indent use `i` param. Full example [you can see here.](https://github.com/Sobolev5/simple-print/blob/master/tests/test_sprint.py)
 ```python
 
 def test_indent():
@@ -47,8 +46,7 @@ def test_indent():
     sprint(fruits, c="green")  
     for fruit in fruits:
         sprint(fruit, c="yellow", i=4)
-```
-Result:   
+```  
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/indent.png)
 
 
