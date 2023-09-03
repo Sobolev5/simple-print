@@ -17,12 +17,12 @@ Full example [you can see here.](https://github.com/Sobolev5/simple-print/blob/m
 ```python
 master = "yoda" # variable name master
 sprint(master) 
-sprint(master, c="blue") 
-sprint(master, c="blue", b="on_white") 
-sprint(master, c="blue", b="on_white", a="underline") 
+sprint(master, c="magenta") 
+sprint(master, c="white", b="on_blue") 
+sprint(master, c="blue", b="white", a="underline") 
 sprint(master, c="blue", b="on_white", a="bold", p=True) 
-my_string = sprint(master, s=True) # return as string
-my_string = sprint(master, s=True, p=True) # return as string with path to file 
+master_as_s = sprint(master, s=True) # return as string
+master_as_s_with_path = sprint(master, s=True, p=True) # return as string with path to file 
 ``` 
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/common.png)   
 `p` param is `False` by default, but you can override this behavior with `SIMPLE_PRINT_PATH_TO_FILE=True` in your local environment.
