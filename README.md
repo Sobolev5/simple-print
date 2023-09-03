@@ -13,7 +13,7 @@ pip install simple-print
 ```
 
 ### Print variables with names
-Full code example [you can see here.](tests/test_sprint.py)
+Full example [you can see here.](tests/test_sprint.py)
 ```python
 master = "yoda" # variable name master
 sprint(master) 
@@ -39,7 +39,7 @@ Fn params:
 
 
 ### Example with indent
-For indent use `i` param. Full code example [you can see here.](tests/test_sprint.py)
+For indent use `i` param. Full example [you can see here.](tests/test_sprint.py)
 ```python
 
 def test_indent():
