@@ -2,7 +2,7 @@ from simple_print import sprint
 
 
 def test_print():
-    # pytest test/test_sprint.py::test_print -rP
+    # pytest tests/test_sprint.py::test_print -rP
     
     # common
     types = (1, "yoda", (1,), [1], {1: 1}, {1}, True, None, lambda x: x, (x for x in range(2)), type)
@@ -40,9 +40,9 @@ def test_print():
     print('\n\n')
     master = "yoda"
     sprint(master)    
-    sprint(master, c="blue") # colors: grey, red, green, yellow, blue, magenta, cyan, white. 
-    sprint(master, c="blue", b="on_white") # backgrounds: on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan
-    sprint(master, c="blue", b="on_white", a="underline") # attributes: bold, dark, underline, blink, reverse, concealed
+    sprint(master, c="magenta") # colors: grey, red, green, yellow, blue, magenta, cyan, white. 
+    sprint(master, c="white", b="on_blue") # backgrounds: on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan
+    sprint(master, c="white", b="on_green", a="underline") # attributes: bold, dark, underline, blink, reverse, concealed
     sprint(master, c="blue", b="on_white", a="bold", p=True) # 
     my_string = sprint(master, s=True) # return as string
     my_string = sprint(master, s=True, p=True) # return as string with path to file 
@@ -51,12 +51,10 @@ def test_print():
     
     
 def test_indent():
-    # pytest test/test_sprint.py::test_indent -rP
-
+    # pytest tests/test_sprint.py::test_indent -rP
     fruits = ["lemon", "orange", "banana"]
     sprint(fruits, c="green")
     
     for fruit in fruits:
         sprint(fruit, c="yellow", i=4)
-    
     

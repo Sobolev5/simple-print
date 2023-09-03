@@ -1,6 +1,6 @@
 # Simple print
-Powerful debugging tool for Python.  
-Userful for `bash` console messages.
+Print value with variable name.  
+Userful for fast debugging.
 
 ```no-highlight
 https://github.com/Sobolev5/simple-print
@@ -12,20 +12,11 @@ To install run:
 pip install simple-print
 ```
 
-### Print variables
-Function params:
-> `c` color [grey, red, green, yellow, blue, magenta, cyan, white]  
-> `b` background [on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan]  
-> `a` attribute  [bold, dark, underline, blink, reverse, concealed]  
-> `p` path [with path to file]  
-> `i` indent [indent 1..40]  
-> `s` string [return as string]  
-> `f` force print [ignore SIMPLE_PRINT_ENABLED=False for docker production logs for example]  
-
+### Print variables with names
 ```python
 from simple_print import sprint 
 
-master = "yoda"
+master = "yoda" # variable name master
 sprint(master) 
 sprint(master, c="blue") 
 sprint(master, c="blue", b="on_white") 
@@ -37,6 +28,16 @@ my_string = sprint(master, s=True, p=True) # return as string with path to file
 Result:   
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/common.png)   
 `p` param is `False` by default, but you can override this behavior with `SIMPLE_PRINT_PATH_TO_FILE=True` in your local environment.
+
+Fn params:
+> `c` color [grey, red, green, yellow, blue, magenta, cyan, white]  
+> `b` background [on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan]  
+> `a` attribute  [bold, dark, underline, blink, reverse, concealed]  
+> `p` path [with path to file]  
+> `i` indent [indent 1..40]  
+> `s` string [return as string]  
+> `f` force print [ignore SIMPLE_PRINT_ENABLED=False for docker production logs for example]  
+
 
 ### Example with indent
 For indent use `i` param:
@@ -52,7 +53,7 @@ Result:
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/indent.png)
 
 
-### Pretty errors
+### Pretty error tb
 Show errors with pretty traceback:  
 ```python
 from simple_print import SprintErr
