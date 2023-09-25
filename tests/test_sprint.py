@@ -48,7 +48,9 @@ def test_print():
     my_string = sprint(master, s=True, p=True) # return as string with path to file 
     print('\n\n')
     print(sprint.__doc__)
-    
+
+    # stderr
+    sprint("stderr", stream="stderr")    
     
 def test_indent():
     # pytest tests/test_sprint.py::test_indent -rP

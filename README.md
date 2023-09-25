@@ -35,6 +35,7 @@ Fn params:
 > `i` indent [indent 1..40]  
 > `s` string [return as string]  
 > `f` force print [ignore SIMPLE_PRINT_ENABLED=False for docker production logs for example]  
+> `stream` output stream  [stdout, stderr]. stdout by default.
 
 
 ### Example with indent
@@ -51,7 +52,7 @@ def test_indent():
 
 
 ### Pretty error tb
-Show errors with pretty traceback:  
+Show errors in stdout with pretty traceback:  
 ```python
 from simple_print import SprintErr
 

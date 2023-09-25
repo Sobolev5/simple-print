@@ -1,33 +1,41 @@
-import os
 import io
 import sys
 import inspect
 import traceback
 from typing import Any, Union
-from termcolor import cprint
 from executing import Source
 from contextlib import contextmanager
+from .consts import _HIGHLIGHTS, _ATTRIBUTES,_COLORS, _RESET
+from .consts import SIMPLE_PRINT_ENABLED, SIMPLE_PRINT_SHOW_PATH_TO_FILE
 
 
-if os.getenv("SIMPLE_PRINT_ENABLED"):
-    if os.getenv("SIMPLE_PRINT_ENABLED").lower() in ("1", "true", "yes", "y"):
-        SIMPLE_PRINT_ENABLED = True
+def _colorize(
+        text, 
+        color=None, 
+        on_color=None, 
+        attrs=None, 
+        stream="stdout"
+    ) -> None:
+
+    fmt_str = '\033[%dm%s'
+    if color is not None:
+        text = fmt_str % (_COLORS[color], text)
+
+    if on_color is not None:
+        text = fmt_str % (_HIGHLIGHTS[on_color], text)
+
+    if attrs is not None:
+        for attr in attrs:
+            text = fmt_str % (_ATTRIBUTES[attr], text)
+
+    text += _RESET
+    if stream == "stderr":
+        print(text, file=sys.stderr)
     else:
-        SIMPLE_PRINT_ENABLED = False
-else:
-    SIMPLE_PRINT_ENABLED = True
+        print(text, file=sys.stdout)
 
 
-if os.getenv("SIMPLE_PRINT_SHOW_PATH_TO_FILE"):
-    if os.getenv("SIMPLE_PRINT_SHOW_PATH_TO_FILE").lower() in ("1", "true", "yes", "y"):
-        SIMPLE_PRINT_SHOW_PATH_TO_FILE = True
-    else:
-        SIMPLE_PRINT_SHOW_PATH_TO_FILE = False    
-else:
-    SIMPLE_PRINT_SHOW_PATH_TO_FILE = False
-
-
-def _colored_print(
+def _print(
         arg:Any, 
         arg_name:str, 
         c:Union[None, str], 
@@ -36,21 +44,23 @@ def _colored_print(
         i:int, p:bool, 
         function_name:str, 
         lineno:int, 
-        filename:str
+        filename:str,
+        stream="stdout"
     ) -> None:     
 
     if i in range(1, 41):
         arg_name = "{} {}".format(" " * i, arg_name)        
     
     if p:       
-        cprint(
+        _colorize(
             f"░ {arg_name} | type {type(arg)} | line {lineno} | func {function_name} | file {filename}",
-            color=c, on_color=b, attrs=[a] if a else []
+            color=c, on_color=b, attrs=[a] if a else [], stream=stream
         )
     else:
-        cprint(
+        _colorize(
             f"░ {arg_name} | type {type(arg)} | line {lineno} | func {function_name}", 
-            color=c, on_color=b, attrs=[a] if a else [])
+            color=c, on_color=b, attrs=[a] if a else [], stream=stream
+        )
 
 
 def sprint(
@@ -62,6 +72,7 @@ def sprint(
         p:bool=SIMPLE_PRINT_SHOW_PATH_TO_FILE, 
         s:bool=False, 
         f:bool=False, 
+        stream="stdout",
         **kwargs
     ) -> Union[None, str]:
     """ 
@@ -76,7 +87,8 @@ def sprint(
     i:int ~ indent: 1-40  
     p:bool ~ path: show path to file       
     s:bool ~ string: return as string  
-    f:bool ~ force: print anyway (override DEBUG ENV if exist)  
+    f:bool ~ force: print anyway (override DEBUG ENV if exist) 
+    stream: ~ standard output & error: ["stdout", "stderr"] 
     github: https://github.com/Sobolev5/simple-print   
     """
 
@@ -117,8 +129,9 @@ def sprint(
                 if p else f"{arg_name} | {type(arg)} | func {function_name} | line {lineno}"
                 arg_names.append(arg_name)
             else:
-                _colored_print(
-                    arg, arg_name, c, b, a, i, p, function_name, lineno, filename
+                _print(
+                    arg, arg_name, c, b, a, i, p, function_name, lineno, filename,
+                    stream=stream
                 )
         
         if s:
@@ -147,23 +160,14 @@ def SprintErr():
         stack = traceback.extract_stack()
         filename, lineno, function_name, code = stack[-3]
 
-        cprint(
-            f"░░░░░░░░░░ SprintErr. f_name={filename} lineno={lineno} [ ENTER ]", 
-            color="green"
-        )
         try:
             yield 
         except Exception:
-            cprint(
-                f"░░░░░░░░░░ SprintErr. f_name={filename} lineno={lineno} [ ERRORS FOUND ]\n",
-                color="red"
+            print(
+                f"░░ f_name={filename} lineno={lineno} [ ERRORS FOUND ]"
             )
             ei = sys.exc_info()
             print(format_exception(ei))
-        finally:
-            cprint(
-                f"░░░░░░░░░░ SprintErr. f_name={filename} lineno={lineno} [ EXIT ]\n", 
-                color="green"
-            )
+
 
 
