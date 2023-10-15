@@ -72,6 +72,11 @@ Always show path to file:
 export SIMPLE_PRINT_SHOW_PATH_TO_FILE=True
 ```
 
+Add linebreak to every print:  
+```sh
+export SIMPLE_PRINT_ADD_LINE_BREAK=True
+```
+
 ### Test 
 ```sh
 tox

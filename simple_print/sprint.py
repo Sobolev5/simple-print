@@ -6,7 +6,9 @@ from typing import Any, Union
 from executing import Source
 from contextlib import contextmanager
 from .consts import _HIGHLIGHTS, _ATTRIBUTES,_COLORS, _RESET
-from .consts import SIMPLE_PRINT_ENABLED, SIMPLE_PRINT_SHOW_PATH_TO_FILE
+from .consts import SIMPLE_PRINT_ENABLED 
+from .consts import SIMPLE_PRINT_SHOW_PATH_TO_FILE
+from .consts import SIMPLE_PRINT_ADD_LINE_BREAK
 
 
 def _colorize(
@@ -51,14 +53,25 @@ def _print(
     if i in range(1, 41):
         arg_name = "{} {}".format(" " * i, arg_name)        
     
-    if p:       
+    if p:     
+        if i > 0:
+            s = f"░ {arg_name} | type {type(arg)} | line {lineno} |"\
+            f" func {function_name} | {filename}" 
+        else:
+            s = f"░ {arg_name} | type {type(arg)} | line {lineno} |"\
+            f" func {function_name}\n░ 📁 {filename}"  
+        if SIMPLE_PRINT_ADD_LINE_BREAK:
+            s += "\n"        
         _colorize(
-            f"░ {arg_name} | type {type(arg)} | line {lineno} | func {function_name} | file {filename}",
+            s,
             color=c, on_color=b, attrs=[a] if a else [], stream=stream
         )
     else:
+        s = f"░ {arg_name} | type {type(arg)} | line {lineno} | func {function_name}"
+        if SIMPLE_PRINT_ADD_LINE_BREAK:
+            s += "\n" 
         _colorize(
-            f"░ {arg_name} | type {type(arg)} | line {lineno} | func {function_name}", 
+            s, 
             color=c, on_color=b, attrs=[a] if a else [], stream=stream
         )
 
@@ -125,8 +138,9 @@ def sprint(
                 pass
 
             if s:
-                arg_name = f"{arg_name} | {type(arg)} | func {function_name} | line {lineno} | file {filename}"\
-                if p else f"{arg_name} | {type(arg)} | func {function_name} | line {lineno}"
+                arg_name =\
+                f"{arg_name} | {type(arg)} | func {function_name} | line {lineno} | file {filename}"\
+                if p else f"{arg_name} | {type(arg)} | func {function_name} | line {lineno}" 
                 arg_names.append(arg_name)
             else:
                 _print(
@@ -164,11 +178,13 @@ def SprintErr():
             yield 
         except Exception:
             print(
-                f"░░ f_name={filename} lineno={lineno} [ ERRORS FOUND ]"
+                f"🟥 function_name={function_name} lineno={lineno}"
+            )
+            print(
+                f"📁 {filename}"
             )
             ei = sys.exc_info()
             print(format_exception(ei))
-
 
 
 

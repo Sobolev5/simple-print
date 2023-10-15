@@ -43,7 +43,7 @@ _COLORS = dict(
             'cyan',
             'white',
             ],
-            list(range(30, 38))
+            list(range(30, 39))
             ))
         )
 
@@ -64,3 +64,12 @@ if os.getenv("SIMPLE_PRINT_SHOW_PATH_TO_FILE"):
         SIMPLE_PRINT_SHOW_PATH_TO_FILE = False    
 else:
     SIMPLE_PRINT_SHOW_PATH_TO_FILE = False
+
+if os.getenv("SIMPLE_PRINT_ADD_LINE_BREAK"):
+    if os.getenv("SIMPLE_PRINT_ADD_LINE_BREAK").lower() in _YES:
+        SIMPLE_PRINT_ADD_LINE_BREAK = True
+    else:
+        SIMPLE_PRINT_ADD_LINE_BREAK = False
+else:
+    SIMPLE_PRINT_ADD_LINE_BREAK = False
+    
