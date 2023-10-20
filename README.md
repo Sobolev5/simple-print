@@ -33,7 +33,8 @@ Fn params:
 > `a` attribute  [bold, dark, underline, blink, reverse, concealed]  
 > `p` path [with path to file]  
 > `i` indent [indent 1..40]  
-> `s` string [return as string]  
+> `s` string [return as string] 
+> `r` return [print and return as string] 
 > `f` force print [ignore SIMPLE_PRINT_ENABLED=False for docker production logs for example]  
 > `stream` output stream  [stdout, stderr]. stdout by default.
 

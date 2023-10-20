@@ -84,6 +84,7 @@ def sprint(
         i:int=0, 
         p:bool=SIMPLE_PRINT_SHOW_PATH_TO_FILE, 
         s:bool=False, 
+        r:bool=False,
         f:bool=False, 
         stream="stdout",
         **kwargs
@@ -100,6 +101,7 @@ def sprint(
     i:int ~ indent: 1-40  
     p:bool ~ path: show path to file       
     s:bool ~ string: return as string  
+    r:bool ~ string: print and return as string
     f:bool ~ force: print anyway (override DEBUG ENV if exist) 
     stream: ~ standard output & error: ["stdout", "stderr"] 
     github: https://github.com/Sobolev5/simple-print   
@@ -150,6 +152,9 @@ def sprint(
         
         if s:
             return ";".join(arg_names)
+        
+        if r:
+            return args
 
 
 @contextmanager
