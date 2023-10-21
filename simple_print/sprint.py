@@ -154,25 +154,29 @@ def sprint(
             return ";".join(arg_names)
         
         if r:
-            return args
+            if len(args) == 1:
+                return args[0]
+            else:
+                return args
 
 
 @contextmanager
-def SprintErr():
+def SprintErr(l:int=20):
     """ 
     Usage:
     bob = []
-    with SprintErr():
-        print(bob[2]) >>> pretty error tb 
+    with SprintErr(l=40):
+        print(bob[2]) >>> pretty error tb (show 40 lines)
     """
     def format_exception(ei) -> str:
         sio = io.StringIO()
         tb = ei[2]
         traceback.print_exception(ei[0], ei[1], tb, None, sio)
-        s = sio.getvalue()
-        sio.close()
-        if s[-1:] == "\n":
-            s = s[:-1]
+        printed_tb = sio.getvalue()
+        sio.close()    
+        s = ""    
+        for tb_line in printed_tb.splitlines()[-l:]:
+            s += "░ " + tb_line + "\n"
         return s
 
     if SIMPLE_PRINT_ENABLED:
@@ -182,13 +186,13 @@ def SprintErr():
         try:
             yield 
         except Exception:
-            print(
-                f"🟥 function_name={function_name} lineno={lineno}"
-            )
-            print(
-                f"📁 {filename}"
-            )
             ei = sys.exc_info()
+            print(
+                f"░ 🟥 {function_name} lineno={lineno}"
+            )
+            print(
+                f"░ 📁 {filename}\n"
+            )      
             print(format_exception(ei))
 
 

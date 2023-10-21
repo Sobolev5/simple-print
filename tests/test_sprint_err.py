@@ -10,6 +10,6 @@ class TestSprintErr(unittest.TestCase):
 
     @patch('logging.info', MagicMock(side_effect=[Exception("Something went wrong")]))
     def test_sprint_err(self):
-        with SprintErr():
+        with SprintErr(l=30):
             logging.info("")
 

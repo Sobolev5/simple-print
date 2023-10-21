@@ -53,12 +53,12 @@ def test_indent():
 
 
 ### Pretty error tb
-Show errors in stdout with pretty traceback:  
+Show last 20 error_tb lines (useful for large error tb):  
 ```python
 from simple_print import SprintErr
 
-with SprintErr():
-    raise ValueError
+with SprintErr(l=20):
+   some_broken_code / 0
 ```
 
 
