@@ -1,5 +1,5 @@
 from .sprint import (
-    sprint, SprintErr
+    sprint, pprint, SprintErr
 )
 
 __all__ = [

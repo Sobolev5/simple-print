@@ -5,6 +5,8 @@ import traceback
 from typing import Any, Union
 from executing import Source
 from contextlib import contextmanager
+from pprint import pformat
+from textwrap import indent
 from .consts import _HIGHLIGHTS, _ATTRIBUTES,_COLORS, _RESET
 from .consts import SIMPLE_PRINT_ENABLED 
 from .consts import SIMPLE_PRINT_SHOW_PATH_TO_FILE
@@ -160,8 +162,12 @@ def sprint(
                 return args
 
 
+def pprint(data:dict, i=0) -> None:
+    print(indent(pformat(data),' ' * i))
+
+
 @contextmanager
-def SprintErr(l:int=20):
+def SprintErr(l:int=20) -> None:
     """ 
     Usage:
     bob = []
