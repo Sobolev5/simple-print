@@ -36,7 +36,7 @@ Fn params:
 > `s` string [return as string] 
 > `r` return [print and return as string] 
 > `f` force print [ignore SIMPLE_PRINT_ENABLED=False for docker production logs for example]  
-> `stream` output stream  [stdout, stderr]. stdout by default.
+> `stream` output stream  [stdout, stderr, null]. stdout by default. null means no print.
 
 
 ### Example with indent

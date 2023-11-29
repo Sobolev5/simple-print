@@ -33,10 +33,13 @@ def _colorize(
             text = fmt_str % (_ATTRIBUTES[attr], text)
 
     text += _RESET
-    if stream == "stderr":
+    if stream == "stdout":
+        print(text, file=sys.stdout)   
+    elif stream == "stderr":
         print(text, file=sys.stderr)
-    else:
-        print(text, file=sys.stdout)
+    elif stream == "null":
+        # do nothing
+        pass
 
 
 def _print(
@@ -105,7 +108,7 @@ def sprint(
     s:bool ~ string: return as string  
     r:bool ~ string: print and return as string
     f:bool ~ force: print anyway (override DEBUG ENV if exist) 
-    stream: ~ standard output & error: ["stdout", "stderr"] 
+    stream: ~ standard output & error: ["stdout", "stderr", "null"] 
     github: https://github.com/Sobolev5/simple-print   
     """
 
