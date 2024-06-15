@@ -1,6 +1,6 @@
 # Simple print
 Print value with variable name.  
-Userful for fast debugging.
+Userful for fast debugging & local development.
 
 ```no-highlight
 https://github.com/Sobolev5/simple-print

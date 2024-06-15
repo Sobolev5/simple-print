@@ -60,11 +60,11 @@ def _print(
     
     if p:     
         if i > 0:
-            s = f"░ {arg_name} | type {type(arg)} | line {lineno} |"\
+            s = f"▒ {arg_name} | type {type(arg)} | line {lineno} |"\
             f" func {function_name} | {filename}" 
         else:
-            s = f"░ {arg_name} | type {type(arg)} | line {lineno} |"\
-            f" func {function_name}\n░ 📁 {filename}"  
+            s = f"▒ {arg_name} | type {type(arg)} | line {lineno} |"\
+            f" func {function_name}\n▒ 🚀 {filename}"  
         if SIMPLE_PRINT_ADD_LINE_BREAK:
             s += "\n"        
         _colorize(
@@ -72,7 +72,7 @@ def _print(
             color=c, on_color=b, attrs=[a] if a else [], stream=stream
         )
     else:
-        s = f"░ {arg_name} | type {type(arg)} | line {lineno} | func {function_name}"
+        s = f"▒ {arg_name} | type {type(arg)} | line {lineno} | func {function_name}"
         if SIMPLE_PRINT_ADD_LINE_BREAK:
             s += "\n" 
         _colorize(
@@ -185,7 +185,7 @@ def SprintErr(l:int=20) -> None:
         sio.close()    
         s = ""    
         for tb_line in printed_tb.splitlines()[-l:]:
-            s += "░ " + tb_line + "\n"
+            s += "▒ " + tb_line + "\n"
         return s
 
     if SIMPLE_PRINT_ENABLED:
@@ -196,13 +196,13 @@ def SprintErr(l:int=20) -> None:
             yield 
         except Exception:
             ei = sys.exc_info()
-            print(
-                f"░ 🟥 {function_name} lineno={lineno}"
+            _colorize(
+                f"\n▒ 😈 {function_name} lineno={lineno}\n"
+                f"▒ 🚀 {filename}\n"
+                f"{format_exception(ei)}",
+                color="red"
             )
-            print(
-                f"░ 📁 {filename}\n"
-            )      
-            print(format_exception(ei))
+
 
 
 
