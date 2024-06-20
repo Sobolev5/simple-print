@@ -68,6 +68,11 @@ Show last 20 error_tb lines (useful for large error tb):
 from simple_print import sprrint
 
 spprint({"hello":"world"}, i=20)
+
+                        {
+                           'hello': 'world', 
+                           'lorem': 'ipsum'
+                        }
 ```
 
 
