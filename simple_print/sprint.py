@@ -94,37 +94,31 @@ def sprint(
         Defaults to white.
         
         b (Union[None, str], optional): background. 
-        "on_grey", "on_red", "on_green", "on_yellow", "on_blue", "on_magenta", "on_cyan"       
+        on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan    
         Defaults to None.
         
-        a (Union[None, str], optional): _description_. Defaults to None.
-        i (int, optional): _description_. Defaults to 0.
-        p (bool, optional): _description_. Defaults to False.
-        s (bool, optional): _description_. Defaults to False.
-        r (bool, optional): _description_. Defaults to False.
-        f (bool, optional): _description_. Defaults to False.
-        stream (str, optional): _description_. Defaults to "stdout".
-
-    Returns:
-        Union[None, str]: _description_
+        a (Union[None, str], optional): attribute. 
+        bold, dark, underline, blink, reverse, concealed   
+        Defaults to None.
         
+        i (int, optional): indent. Defaults to 0.
+        
+        p (bool, optional): path to file. Defaults to False.
+        
+        s (bool, optional): return string. Defaults to False.
+        
+        r (bool, optional): print and return string. Defaults to False.
+        
+        f (bool, optional): force print anyway (override DEBUG ENV if exist). Defaults to False.
+        
+        stream (str, optional): stream. Defaults to "stdout".
+        stdout", stderr, null
+              
     Example:
-    
-    Usage:
+
     bob = 1
     sprint(bob) 
-    >>> bob = 1 
-
-    Attrs:
- 
-    a:str ~ attributes: bold, dark, underline, blink, reverse, concealed   
-    i:int ~ indent: 1-40  
-    p:bool ~ path: show path to file       
-    s:bool ~ string: return as string  
-    r:bool ~ string: print and return as string
-    f:bool ~ force: print anyway (override DEBUG ENV if exist) 
-    stream: ~ standard output & error: ["stdout", "stderr", "null"] 
-    github: https://github.com/Sobolev5/simple-print   
+    >>> bob = 1 h
     """
 
     if SIMPLE_PRINT_ENABLED or f:
