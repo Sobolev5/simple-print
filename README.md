@@ -1,6 +1,6 @@
 # Simple print
-Print value with variable name.  
-Userful for fast debugging & local development.
+Collection of console debug utilities.  
+Userful for local development.
 
 ```no-highlight
 https://github.com/Sobolev5/simple-print
@@ -12,7 +12,7 @@ To install run:
 pip install simple-print
 ```
 
-### Print variables with names
+### sprint 🚀 print variables with names
 Full example [you can see here.](https://github.com/Sobolev5/simple-print/blob/master/tests/test_sprint.py)
 ```python
 master = "yoda" # variable name master
@@ -39,7 +39,7 @@ Fn params:
 > `stream` output stream  [stdout, stderr, null]. stdout by default. null means no print.
 
 
-### Example with indent
+#### Example with indent
 For indent use `i` param. Full example [you can see here.](https://github.com/Sobolev5/simple-print/blob/master/tests/test_sprint.py)
 ```python
 
@@ -52,7 +52,7 @@ def test_indent():
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/indent.png)
 
 
-### Pretty error tb
+### SprintErr 🚀 minified error traceback
 Show last 20 error_tb lines (useful for large error tb):  
 ```python
 from simple_print import SprintErr
@@ -61,23 +61,38 @@ with SprintErr(l=20):
    some_broken_code / 0
 ```
 
+### spprint 🚀 pretty print with indent
+Show last 20 error_tb lines (useful for large error tb):  
+```python
+from simple_print import sprrint
 
-### ENV
+spprint({"hello":"world"}, i=20)
+```
+
+
+### ArtEnum 🚀 collection of ascii Art
+```sh
+from simple_print import ArtEnum
+
+print(ArtEnum.PACMAN_1)
+
+   ,##.                   ,==.
+ ,#    #.                 \ o ',
+#        #     _     _     \    \
+#        #    (_)   (_)    /    ; 
+ `#    #'                 /   .'  
+   `##'                   "=="
+
+```
+  
+
+### Env
 Stop printing:  
 ```sh
 export SIMPLE_PRINT_ENABLED=False
 ```
+
   
-Always show path to file:  
-```sh
-export SIMPLE_PRINT_SHOW_PATH_TO_FILE=True
-```
-
-Add linebreak to every print:  
-```sh
-export SIMPLE_PRINT_ADD_LINE_BREAK=True
-```
-
 ### Test 
 ```sh
 tox

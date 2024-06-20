@@ -2,7 +2,7 @@ import setuptools
 
 
 __author__ = 'Sobolev Andrey <email.asobolev@gmail.com>'
-__version__ = '1.9.6'
+__version__ = '2.0.0'
 
 
 with open("README.md", "r") as fh:
@@ -12,10 +12,10 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name='simple-print',
     version=__version__,
-    install_requires=['executing==1.2.0', 'asttokens==2.2.1', 'typing-extensions>=4.1.0'],
+    install_requires=['executing==2.0.1', 'asttokens==2.4.1'],
     author='Sobolev Andrey',
     author_email='email.asobolev@gmail.com',
-    description='Powerful debugging tool for Python.',
+    description='Useful console tools for local development',
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),

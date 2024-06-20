@@ -9,9 +9,6 @@ from pprint import pformat
 from textwrap import indent
 from .consts import _HIGHLIGHTS, _ATTRIBUTES,_COLORS, _RESET
 from .consts import SIMPLE_PRINT_ENABLED 
-from .consts import SIMPLE_PRINT_SHOW_PATH_TO_FILE
-from .consts import SIMPLE_PRINT_ADD_LINE_BREAK
-
 
 def _colorize(
         text, 
@@ -65,16 +62,12 @@ def _print(
         else:
             s = f"▒ {arg_name} | type {type(arg)} | line {lineno} |"\
             f" func {function_name}\n▒ 🚀 {filename}"  
-        if SIMPLE_PRINT_ADD_LINE_BREAK:
-            s += "\n"        
         _colorize(
             s,
             color=c, on_color=b, attrs=[a] if a else [], stream=stream
         )
     else:
         s = f"▒ {arg_name} | type {type(arg)} | line {lineno} | func {function_name}"
-        if SIMPLE_PRINT_ADD_LINE_BREAK:
-            s += "\n" 
         _colorize(
             s, 
             color=c, on_color=b, attrs=[a] if a else [], stream=stream
@@ -87,21 +80,43 @@ def sprint(
         b:Union[None, str]=None, 
         a:Union[None, str]=None, 
         i:int=0, 
-        p:bool=SIMPLE_PRINT_SHOW_PATH_TO_FILE, 
+        p:bool=False, 
         s:bool=False, 
         r:bool=False,
         f:bool=False, 
         stream="stdout",
-        **kwargs
     ) -> Union[None, str]:
-    """ 
+    """Print variable value with its name in code.
+
+    Args:
+        c (Union[None, str], optional): color. 
+        grey, red, green, yellow, blue, magenta, cyan, white
+        Defaults to white.
+        
+        b (Union[None, str], optional): background. 
+        "on_grey", "on_red", "on_green", "on_yellow", "on_blue", "on_magenta", "on_cyan"       
+        Defaults to None.
+        
+        a (Union[None, str], optional): _description_. Defaults to None.
+        i (int, optional): _description_. Defaults to 0.
+        p (bool, optional): _description_. Defaults to False.
+        s (bool, optional): _description_. Defaults to False.
+        r (bool, optional): _description_. Defaults to False.
+        f (bool, optional): _description_. Defaults to False.
+        stream (str, optional): _description_. Defaults to "stdout".
+
+    Returns:
+        Union[None, str]: _description_
+        
+    Example:
+    
     Usage:
     bob = 1
-    sprint(var) >>> bob = 1
+    sprint(bob) 
+    >>> bob = 1 
 
     Attrs:
-    с:str ~ colors: ["grey", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]  
-    b:str ~ backgrounds: ["on_grey", "on_red", "on_green", "on_yellow", "on_blue", "on_magenta", "on_cyan"]  
+ 
     a:str ~ attributes: bold, dark, underline, blink, reverse, concealed   
     i:int ~ indent: 1-40  
     p:bool ~ path: show path to file       

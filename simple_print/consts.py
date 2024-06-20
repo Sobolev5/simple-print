@@ -57,19 +57,4 @@ if os.getenv("SIMPLE_PRINT_ENABLED"):
 else:
     SIMPLE_PRINT_ENABLED = True
 
-if os.getenv("SIMPLE_PRINT_SHOW_PATH_TO_FILE"):
-    if os.getenv("SIMPLE_PRINT_SHOW_PATH_TO_FILE").lower() in _YES:
-        SIMPLE_PRINT_SHOW_PATH_TO_FILE = True
-    else:
-        SIMPLE_PRINT_SHOW_PATH_TO_FILE = False    
-else:
-    SIMPLE_PRINT_SHOW_PATH_TO_FILE = False
-
-if os.getenv("SIMPLE_PRINT_ADD_LINE_BREAK"):
-    if os.getenv("SIMPLE_PRINT_ADD_LINE_BREAK").lower() in _YES:
-        SIMPLE_PRINT_ADD_LINE_BREAK = True
-    else:
-        SIMPLE_PRINT_ADD_LINE_BREAK = False
-else:
-    SIMPLE_PRINT_ADD_LINE_BREAK = False
     

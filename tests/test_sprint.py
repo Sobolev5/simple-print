@@ -1,8 +1,8 @@
 from simple_print import sprint
 
 
-def test_print():
-    # pytest tests/test_sprint.py::test_print -s
+def test_sprint():
+    # pytest tests/test_sprint.py
     
     # common
     types = (1, "yoda", (1,), [1], {1: 1}, {1}, True, None, lambda x: x, (x for x in range(2)), type)
