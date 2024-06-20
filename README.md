@@ -67,7 +67,12 @@ Show last 20 error_tb lines (useful for large error tb):
 ```python
 from simple_print import sprrint
 
-spprint({"hello":"world"}, i=20)
+spprint({"hello": c"world", "lorem": "ipsum"}, i=20)
+
+                        {
+                           'hello': 'world', 
+                           'lorem': 'ipsum'
+                        }
 ```
 
 

@@ -7,6 +7,7 @@ def test_sprint():
     Run:
         pytest tests/test_sprint_err.py -s
     """
+
     # common
     types = (
         1,
