@@ -6,7 +6,7 @@ def spprint(
     data: dict, 
     i=0,
 ) -> None:
-    """Pretty print with indent
+    """Pretty print with indent.
 
     Args:
         data (dict): dict

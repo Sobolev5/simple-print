@@ -3,7 +3,7 @@ from simple_print import spprint
 
 
 def test_spprint():
-    """Test spprint
+    """Test spprint.
     
     Run:
         pytest tests/test_spprint.py -s

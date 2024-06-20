@@ -1,12 +1,8 @@
-import io
 import sys
 import inspect
 import traceback
 from typing import Any, Union
 from executing import Source
-from contextlib import contextmanager
-from pprint import pformat
-from textwrap import indent
 from .consts import _HIGHLIGHTS, _ATTRIBUTES,_COLORS, _RESET
 from .consts import SIMPLE_PRINT_ENABLED 
 
@@ -118,7 +114,7 @@ def sprint(
 
     bob = 1
     sprint(bob) 
-    >>> bob = 1 h
+    >>> bob = 1 
     """
 
     if SIMPLE_PRINT_ENABLED or f:
@@ -172,46 +168,3 @@ def sprint(
                 return args[0]
             else:
                 return args
-
-
-def pprint(data:dict, i=0) -> None:
-    print(indent(pformat(data),' ' * i))
-
-
-@contextmanager
-def SprintErr(l:int=20) -> None:
-    """ 
-    Usage:
-    bob = []
-    with SprintErr(l=40):
-        print(bob[2]) >>> pretty error tb (show 40 lines)
-    """
-    def format_exception(ei) -> str:
-        sio = io.StringIO()
-        tb = ei[2]
-        traceback.print_exception(ei[0], ei[1], tb, None, sio)
-        printed_tb = sio.getvalue()
-        sio.close()    
-        s = ""    
-        for tb_line in printed_tb.splitlines()[-l:]:
-            s += "▒ " + tb_line + "\n"
-        return s
-
-    if SIMPLE_PRINT_ENABLED:
-        stack = traceback.extract_stack()
-        filename, lineno, function_name, code = stack[-3]
-
-        try:
-            yield 
-        except Exception:
-            ei = sys.exc_info()
-            _colorize(
-                f"\n▒ 😈 {function_name} lineno={lineno}\n"
-                f"▒ 🚀 {filename}\n"
-                f"{format_exception(ei)}",
-                color="red"
-            )
-
-
-
-

@@ -13,9 +13,11 @@ def SprintErr(l:int=20): # noqa
         l (int, optional): line numbers. Defaults to 20.
         
     Example:
+    
     bob = []
     with SprintErr(l=40):
-        print(bob[2]) >>> pretty error tb (show 40 lines)
+        print(bob[2]) >>> pretty error tb (show 40 lines).
+        
     """
     def format_exception(ei) -> str:
         sio = io.StringIO()

@@ -6,8 +6,11 @@ from simple_print import SprintErr
 
 
 class TestSprintErr(unittest.TestCase):
-    # pytest tests/test_sprint_err.py -s
-
+    """Test SprintErr.
+    
+    Run:
+        pytest tests/test_sprint_err.py -s
+    """
     @patch('logging.info', MagicMock(side_effect=[Exception("Something went wrong")]))
     def test_sprint_err(self):
         with SprintErr(l=30):

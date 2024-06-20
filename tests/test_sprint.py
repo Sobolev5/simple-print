@@ -2,8 +2,11 @@ from simple_print import sprint
 
 
 def test_sprint():
-    # pytest tests/test_sprint.py
+    """Test SprintErr.
     
+    Run:
+        pytest tests/test_sprint_err.py -s
+    """  
     # common
     types = (1, "yoda", (1,), [1], {1: 1}, {1}, True, None, lambda x: x, (x for x in range(2)), type)
     print(*types)

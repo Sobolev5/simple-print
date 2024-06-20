@@ -2,7 +2,7 @@ from simple_print import ArtEnum
 
 
 def test_art_enum() -> None:
-    """Test ArtEnum
+    """Test ArtEnum.
     
     Run:
         pytest tests/test_art_enum.py -s

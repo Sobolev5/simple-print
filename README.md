@@ -13,7 +13,7 @@ pip install simple-print
 ```
 
 ### sprint 🚀 print variables with names
-Full example [you can see here.](https://github.com/Sobolev5/simple-print/blob/master/tests/test_sprint.py)
+
 ```python
 master = "yoda" # variable name master
 sprint(master) 
@@ -23,9 +23,9 @@ sprint(master, c="blue", b="white", a="underline")
 sprint(master, c="blue", b="on_white", a="bold", p=True) 
 master_as_s = sprint(master, s=True) # return as string
 master_as_s_with_path = sprint(master, s=True, p=True) # return as string with path to file 
+
 ``` 
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/common.png)   
-`p` param is `False` by default, but you can override this behavior with `SIMPLE_PRINT_PATH_TO_FILE=True` in your local environment.
 
 Fn params:
 > `c` color [grey, red, green, yellow, blue, magenta, cyan, white]  
@@ -40,7 +40,6 @@ Fn params:
 
 
 #### Example with indent
-For indent use `i` param. Full example [you can see here.](https://github.com/Sobolev5/simple-print/blob/master/tests/test_sprint.py)
 ```python
 
 def test_indent():
@@ -48,6 +47,7 @@ def test_indent():
     sprint(fruits, c="green")  
     for fruit in fruits:
         sprint(fruit, c="yellow", i=4)
+
 ```  
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/indent.png)
 
@@ -59,6 +59,7 @@ from simple_print import SprintErr
 
 with SprintErr(l=20):
    some_broken_code / 0
+   
 ```
 
 ### spprint 🚀 pretty print with indent
@@ -87,13 +88,15 @@ print(ArtEnum.PACMAN_1)
   
 
 ### Env
-Stop printing:  
+Stop printing on production:  
 ```sh
 export SIMPLE_PRINT_ENABLED=False
+
 ```
 
   
 ### Test 
 ```sh
 tox
+
 ```
