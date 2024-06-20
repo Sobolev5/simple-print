@@ -1,8 +1,8 @@
 import setuptools
 
 
-__author__ = 'Sobolev Andrey <email.asobolev@gmail.com>'
-__version__ = '2.0.0'
+__author__ = "Sobolev Andrey <email.asobolev@gmail.com>"
+__version__ = "2.0.0"
 
 
 with open("README.md", "r") as fh:
@@ -10,12 +10,12 @@ with open("README.md", "r") as fh:
 
 
 setuptools.setup(
-    name='simple-print',
+    name="simple-print",
     version=__version__,
-    install_requires=['executing==2.0.1', 'asttokens==2.4.1'],
-    author='Sobolev Andrey',
-    author_email='email.asobolev@gmail.com',
-    description='Useful console tools for local development',
+    install_requires=["executing==2.0.1", "asttokens==2.4.1"],
+    author="Sobolev Andrey",
+    author_email="email.asobolev@gmail.com",
+    description="Useful console tools for local development",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
@@ -25,5 +25,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.8',
+    python_requires=">=3.8",
 )

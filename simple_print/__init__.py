@@ -4,7 +4,7 @@ from .art_enum import ArtEnum
 from .sprint_err import SprintErr
 
 __all__ = [
-    "sprint", 
+    "sprint",
     "spprint",
     "ArtEnum",
     "SprintErr",
