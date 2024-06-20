@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "simple-print"
+version = "2.0.0"
+description = ""
+authors = ["Sobolev Andrey <email.asobolev@gmail.com>"]
+readme = "README.md"
+packages = [{include = "simple_print"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+asttokens = "^2.4.1"
+executing = "^2.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

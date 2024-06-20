@@ -1,6 +1,6 @@
 # Simple print
-Print value with variable name.  
-Userful for fast debugging & local development.
+Collection of console debug utilities.  
+Userful for local development.
 
 ```no-highlight
 https://github.com/Sobolev5/simple-print
@@ -12,8 +12,8 @@ To install run:
 pip install simple-print
 ```
 
-### Print variables with names
-Full example [you can see here.](https://github.com/Sobolev5/simple-print/blob/master/tests/test_sprint.py)
+### sprint 🚀 print variables with names
+
 ```python
 master = "yoda" # variable name master
 sprint(master) 
@@ -23,9 +23,9 @@ sprint(master, c="blue", b="white", a="underline")
 sprint(master, c="blue", b="on_white", a="bold", p=True) 
 master_as_s = sprint(master, s=True) # return as string
 master_as_s_with_path = sprint(master, s=True, p=True) # return as string with path to file 
+
 ``` 
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/common.png)   
-`p` param is `False` by default, but you can override this behavior with `SIMPLE_PRINT_PATH_TO_FILE=True` in your local environment.
 
 Fn params:
 > `c` color [grey, red, green, yellow, blue, magenta, cyan, white]  
@@ -39,8 +39,7 @@ Fn params:
 > `stream` output stream  [stdout, stderr, null]. stdout by default. null means no print.
 
 
-### Example with indent
-For indent use `i` param. Full example [you can see here.](https://github.com/Sobolev5/simple-print/blob/master/tests/test_sprint.py)
+#### Example with indent
 ```python
 
 def test_indent():
@@ -48,37 +47,56 @@ def test_indent():
     sprint(fruits, c="green")  
     for fruit in fruits:
         sprint(fruit, c="yellow", i=4)
+
 ```  
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/indent.png)
 
 
-### Pretty error tb
+### SprintErr 🚀 minified error traceback
 Show last 20 error_tb lines (useful for large error tb):  
 ```python
 from simple_print import SprintErr
 
 with SprintErr(l=20):
    some_broken_code / 0
+   
+```
+
+### spprint 🚀 pretty print with indent
+Show last 20 error_tb lines (useful for large error tb):  
+```python
+from simple_print import sprrint
+
+spprint({"hello":"world"}, i=20)
 ```
 
 
-### ENV
-Stop printing:  
+### ArtEnum 🚀 collection of ascii Art
 ```sh
-export SIMPLE_PRINT_ENABLED=False
+from simple_print import ArtEnum
+
+print(ArtEnum.PACMAN_1)
+
+   ,##.                   ,==.
+ ,#    #.                 \ o ',
+#        #     _     _     \    \
+#        #    (_)   (_)    /    ; 
+ `#    #'                 /   .'  
+   `##'                   "=="
+
 ```
   
-Always show path to file:  
+
+### Env
+Stop printing on production:  
 ```sh
-export SIMPLE_PRINT_SHOW_PATH_TO_FILE=True
+export SIMPLE_PRINT_ENABLED=False
+
 ```
 
-Add linebreak to every print:  
-```sh
-export SIMPLE_PRINT_ADD_LINE_BREAK=True
-```
-
+  
 ### Test 
 ```sh
 tox
+
 ```
