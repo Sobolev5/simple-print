@@ -107,6 +107,7 @@ def sprint(
     bob = 1
     sprint(bob)
     >>> bob = 1
+
     """
 
     if SIMPLE_PRINT_ENABLED or f:

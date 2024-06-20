@@ -8,7 +8,6 @@ packages = [{include = "simple_print"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-asttokens = "^2.4.1"
 executing = "^2.0.1"
 
 [build-system]
