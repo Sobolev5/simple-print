@@ -2,10 +2,10 @@ from simple_print import sprint
 
 
 def test_sprint():
-    """Test SprintErr.
+    """Test sprint.
 
     Run:
-        pytest tests/test_sprint_err.py -s
+        pytest tests/test_sprint.py -s
     """
 
     # common

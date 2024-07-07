@@ -7,7 +7,12 @@ from .consts import _HIGHLIGHTS, _ATTRIBUTES, _COLORS, _RESET
 from .consts import SIMPLE_PRINT_ENABLED
 
 
-def _colorize(text, color=None, on_color=None, attrs=None, stream="stdout") -> None:
+def _colorize(
+    text, 
+    color=None, 
+    on_color=None, 
+    attrs=None,
+) -> str:
     fmt_str = "\033[%dm%s"
     if color is not None:
         text = fmt_str % (_COLORS[color], text)
@@ -20,13 +25,7 @@ def _colorize(text, color=None, on_color=None, attrs=None, stream="stdout") -> N
             text = fmt_str % (_ATTRIBUTES[attr], text)
 
     text += _RESET
-    if stream == "stdout":
-        print(text, file=sys.stdout)
-    elif stream == "stderr":
-        print(text, file=sys.stderr)
-    elif stream == "null":
-        # do nothing
-        pass
+    return text
 
 
 def _print(
@@ -42,26 +41,24 @@ def _print(
     filename: str,
     stream="stdout",
 ) -> None:
+
     if i in range(1, 41):
         arg_name = "{} {}".format(" " * i, arg_name)
-
+        
+    s = _colorize(f"▒ {arg_name} " , color=c, on_color=b, attrs=[a] if a else [])
+    s += _colorize( f" | typ {type(arg)} | ln {lineno} | fn {function_name}" , color="green", on_color=None, attrs=[])
+        
     if p:
-        if i > 0:
-            s = (
-                f"▒ {arg_name} | type {type(arg)} | line {lineno} |"
-                f" func {function_name} | {filename}"
-            )
-        else:
-            s = (
-                f"▒ {arg_name} | type {type(arg)} | line {lineno} |"
-                f" func {function_name}\n▒ 🚀 {filename}"
-            )
-        _colorize(s, color=c, on_color=b, attrs=[a] if a else [], stream=stream)
-    else:
-        s = f"▒ {arg_name} | type {type(arg)} | line {lineno} | func {function_name}"
-        _colorize(s, color=c, on_color=b, attrs=[a] if a else [], stream=stream)
+        s += f"\n▒ 🚀 {filename}"
 
-
+    if stream == "stdout":
+        print(s, file=sys.stdout)
+    elif stream == "stderr":
+        print(s, file=sys.stderr)
+    elif stream == "null":
+        # do nothing
+        pass
+        
 def sprint(
     *args,
     c: Union[None, str] = "white",
@@ -121,22 +118,21 @@ def sprint(
             arg_names = []
 
         for j, arg in enumerate(args):
+               
             try:
-                try:
-                    arg_name = source.asttokens().get_text(call_node.args[j])
-                except (KeyError, Exception):
-                    arg_name = code.replace("sprint", "", 1)[1:-1]
-                arg_name_not_required = (
-                    arg_name == arg
-                    or arg_name.strip('"').strip("'") == arg
-                    or arg_name.startswith('f"')
-                    or arg_name.startswith("f'")
-                    or ".format" in arg_name
-                    or "%" in arg_name
-                )
-                arg_name = f"{arg}" if arg_name_not_required else f"{arg_name} = {arg}"
-            except Exception:
-                arg_name = f"{arg}"
+                arg_name = source.asttokens().get_text(call_node.args[j])
+            except Exception as exc:
+                raise ModuleNotFoundError from exc
+            
+            arg_name_not_required = (
+                arg_name == arg
+                or arg_name.strip('"').strip("'") == arg
+                or arg_name.startswith('f"')
+                or arg_name.startswith("f'")
+                or ".format" in arg_name
+                or "%" in arg_name
+            )
+            arg_name = f"{arg}" if arg_name_not_required else f"{arg_name} = {arg}"
 
             try:
                 if hasattr(arg, "id") and arg.id:
