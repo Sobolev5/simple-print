@@ -2,7 +2,7 @@ import setuptools
 
 
 __author__ = "Sobolev Andrey <email.asobolev@gmail.com>"
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 
 
 with open("README.md", "r") as fh:
@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="simple-print",
     version=__version__,
-    install_requires=["executing==2.0.1"],
+    install_requires=["executing==2.0.1", "asttokens==2.4.1"],
     author="Sobolev Andrey",
     author_email="email.asobolev@gmail.com",
     description="Useful console tools for local development",
