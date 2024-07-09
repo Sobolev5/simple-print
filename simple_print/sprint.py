@@ -46,10 +46,10 @@ def _print(
         arg_name = "{} {}".format(" " * i, arg_name)
         
     s = _colorize(f"▒ {arg_name} " , color=c, on_color=b, attrs=[a] if a else [])
-    s += _colorize( f" | typ {type(arg)} | ln {lineno} | fn {function_name}" , color="green", on_color=None, attrs=[])
+    s += _colorize( f" | {type(arg)} | {lineno} | {function_name}" , color="green", on_color=None, attrs=[])
         
     if p:
-        s += f"\n▒ 🚀 {filename}"
+        s += f"\n▒ 📁 {filename}"
 
     if stream == "stdout":
         print(s, file=sys.stdout)
@@ -70,7 +70,7 @@ def sprint(
     r: bool = False,
     f: bool = False,
     stream="stdout",
-) -> Union[None, str]:
+) -> str | tuple[Any] | None:
     """Print variable value with its name in code.
 
     Args:
@@ -110,7 +110,12 @@ def sprint(
     if SIMPLE_PRINT_ENABLED or f:
         stack = traceback.extract_stack()
         filename, lineno, function_name, code = stack[-2]
-        call_frame = inspect.currentframe().f_back
+        
+        curr_frame = inspect.currentframe()
+        if not curr_frame:    
+            return None
+        
+        call_frame = curr_frame.f_back
         call_node = Source.executing(call_frame).node
         source = Source.for_frame(call_frame)
 
@@ -142,9 +147,9 @@ def sprint(
 
             if s:
                 arg_name = (
-                    f"{arg_name} | {type(arg)} | func {function_name} | line {lineno} | file {filename}"
+                    f"{arg_name} | {type(arg)} | {function_name} | {lineno} | {filename}"
                     if p
-                    else f"{arg_name} | {type(arg)} | func {function_name} | line {lineno}"
+                    else f"{arg_name} | {type(arg)} | {function_name} | {lineno}"
                 )
                 arg_names.append(arg_name)
             else:
@@ -170,3 +175,5 @@ def sprint(
                 return args[0]
             else:
                 return args
+            
+    return None
