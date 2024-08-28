@@ -8,3 +8,4 @@ def test_art_enum() -> None:
         pytest tests/test_art_enum.py -s
     """
     print(ArtEnum.PACMAN_1)
+    

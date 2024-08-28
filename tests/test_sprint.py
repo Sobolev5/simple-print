@@ -80,3 +80,4 @@ def test_sprint():
 
     for fruit in fruits:
         sprint(fruit, c="yellow", i=4, p=1)
+
