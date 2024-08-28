@@ -45,11 +45,42 @@ def _print(
     if i in range(1, 41):
         arg_name = "{} {}".format(" " * i, arg_name)
         
-    s = _colorize(f"▒ {arg_name} " , color=c, on_color=b, attrs=[a] if a else [])
-    s += _colorize( f" | {type(arg)} | {lineno} | {function_name}" , color="green", on_color=None, attrs=[])
+    s = _colorize(
+        f"▒ {arg_name} ", 
+        color=c, 
+        on_color=b, 
+        attrs=[a] if a else [],
+    )
+    
+    s += _colorize( 
+        f" | {type(arg)} | {lineno} | {function_name}" , 
+        color="green", 
+        on_color=None, 
+        attrs=[],
+    )
         
     if p:
-        s += f"\n▒ 📁 {filename}"
+        s += _colorize( 
+            f" | {type(arg)} | {lineno} | {function_name}" , 
+            color="green", 
+            on_color=None, 
+            attrs=[],
+        )
+
+        s += _colorize( 
+            f" | {filename}" , 
+            color="cyan", 
+            on_color=None, 
+            attrs=[],
+        )
+        
+    else:
+        s += _colorize( 
+            f" | {type(arg)} | {lineno} | {function_name}" ,
+            color="green", 
+            on_color=None, 
+            attrs=[],
+        )
 
     if stream == "stdout":
         print(s, file=sys.stdout)
@@ -65,7 +96,7 @@ def sprint(
     b: Union[None, str] = None,
     a: Union[None, str] = None,
     i: int = 0,
-    p: bool = False,
+    p: bool = True,
     s: bool = False,
     r: bool = False,
     f: bool = False,
