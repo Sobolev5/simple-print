@@ -36,6 +36,7 @@ def _print(
     a: Union[None, str],
     i: int,
     p: bool,
+    l: bool,
     function_name: str,
     lineno: int,
     filename: str,
@@ -52,21 +53,15 @@ def _print(
         attrs=[a] if a else [],
     )
     
-    s += _colorize( 
-        f" | {type(arg)} | {lineno} | {function_name}" , 
-        color="green", 
-        on_color=None, 
-        attrs=[],
-    )
-        
-    if p:
+    if not l:
         s += _colorize( 
             f" | {type(arg)} | {lineno} | {function_name}" , 
             color="green", 
             on_color=None, 
             attrs=[],
         )
-
+            
+    if p:
         s += _colorize( 
             f" | {filename}" , 
             color="cyan", 
@@ -74,14 +69,6 @@ def _print(
             attrs=[],
         )
         
-    else:
-        s += _colorize( 
-            f" | {type(arg)} | {lineno} | {function_name}" ,
-            color="green", 
-            on_color=None, 
-            attrs=[],
-        )
-
     if stream == "stdout":
         print(s, file=sys.stdout)
     elif stream == "stderr":
@@ -90,13 +77,15 @@ def _print(
         # do nothing
         pass
         
+
 def sprint(
     *args,
     c: Union[None, str] = "white",
     b: Union[None, str] = None,
     a: Union[None, str] = None,
     i: int = 0,
-    p: bool = True,
+    p: bool = False,
+    l: bool = False,
     s: bool = False,
     r: bool = False,
     f: bool = False,
@@ -120,6 +109,8 @@ def sprint(
         i (int, optional): indent. Defaults to 0.
 
         p (bool, optional): path to file. Defaults to False.
+        
+        l (bool, optional): print without fn name and lineno. Defaults to False.
 
         s (bool, optional): return string. Defaults to False.
 
@@ -192,11 +183,123 @@ def sprint(
                     a,
                     i,
                     p,
+                    l,
                     function_name,
                     lineno,
                     filename,
                     stream=stream,
                 )
+
+        if s:
+            return ";".join(arg_names)
+
+        if r:
+            if len(args) == 1:
+                return args[0]
+            else:
+                return args
+            
+    return None
+
+
+def lsprint(
+    *args,
+    c: Union[None, str] = "white",
+    b: Union[None, str] = None,
+    a: Union[None, str] = None,
+    i: int = 0,
+    s: bool = False,
+    r: bool = False,
+    f: bool = False,
+    stream="stdout",
+    **kwargs,
+) -> str | tuple[Any] | None:
+    """Print variable value with its name in code.
+
+    Args:
+        c (Union[None, str], optional): color.
+        grey, red, green, yellow, blue, magenta, cyan, white
+        Defaults to white.
+
+        b (Union[None, str], optional): background.
+        on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan
+        Defaults to None.
+
+        a (Union[None, str], optional): attribute.
+        bold, dark, underline, blink, reverse, concealed
+        Defaults to None.
+
+        i (int, optional): indent. Defaults to 0.
+
+        s (bool, optional): return string. Defaults to False.
+
+        r (bool, optional): print and return string. Defaults to False.
+
+        f (bool, optional): force print anyway (override DEBUG ENV if exist). Defaults to False.
+
+        stream (str, optional): stream. Defaults to "stdout".
+        stdout", stderr, null
+
+    Example:
+
+    bob = 1
+    lsprint(bob)
+    >>> bob = 1
+
+    """
+
+    if SIMPLE_PRINT_ENABLED or f:
+        stack = traceback.extract_stack()
+        filename, lineno, function_name, code = stack[-2]
+        
+        curr_frame = inspect.currentframe()
+        if not curr_frame:    
+            return None
+        
+        call_frame = curr_frame.f_back
+        call_node = Source.executing(call_frame).node
+        source = Source.for_frame(call_frame)
+
+        if s:
+            arg_names = []
+
+        for j, arg in enumerate(args):
+               
+            try:
+                arg_name = source.asttokens().get_text(call_node.args[j])
+            except Exception as exc:
+                raise ModuleNotFoundError from exc
+            
+            arg_name_not_required = (
+                arg_name == arg
+                or arg_name.strip('"').strip("'") == arg
+                or arg_name.startswith('f"')
+                or arg_name.startswith("f'")
+                or ".format" in arg_name
+                or "%" in arg_name
+            )
+            arg_name = f"{arg}" if arg_name_not_required else f"{arg_name} = {arg}"
+
+            try:
+                if hasattr(arg, "id") and arg.id:
+                    arg_name += f" ID={arg.id}"
+            except (AttributeError, Exception):
+                pass
+
+            _print(
+                arg,
+                arg_name,
+                c,
+                b,
+                a,
+                i,
+                False,
+                True,
+                function_name,
+                lineno,
+                filename,
+                stream=stream,
+            )
 
         if s:
             return ";".join(arg_names)

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "simple-print"
-version = "2.0.0"
+version = "2.2.2"
 description = ""
 authors = ["Sobolev Andrey <email.asobolev@gmail.com>"]
 readme = "README.md"
