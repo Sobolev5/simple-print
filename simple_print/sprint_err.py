@@ -35,14 +35,15 @@ def SprintErr(l: int = 20):  # noqa
     if SIMPLE_PRINT_ENABLED:
         stack = traceback.extract_stack()
         filename, lineno, function_name, code = stack[-3]
-
         try:
             yield
         except Exception:
             ei = sys.exc_info()
-            _colorize(
-                f"\n▒ 😈 {function_name} lineno={lineno}\n"
-                f"▒ u {filename}\n"
-                f"{format_exception(ei)}",
-                color="red",
+            print(
+                _colorize(
+                    f"\n▒ 😈 {function_name} lineno={lineno}\n"
+                    f"▒ u {filename}\n"
+                    f"{format_exception(ei)}",
+                    color="red",
+                )
             )

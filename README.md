@@ -1,5 +1,5 @@
 # Simple print
-Collection of console debug utilities.  
+Collection of console print utilities.  
 Userful for local development.
 
 ```no-highlight
@@ -12,8 +12,8 @@ To install run:
 pip install simple-print
 ```
 
-### sprint 🚀 print variables with names
-
+### sprint 
+Print variables with its names:
 ```python
 master = "yoda" # variable name master
 sprint(master) 
@@ -23,25 +23,24 @@ sprint(master, c="blue", b="white", a="underline")
 sprint(master, c="blue", b="on_white", a="bold", p=True) 
 master_as_s = sprint(master, s=True) # return as string
 master_as_s_with_path = sprint(master, s=True, p=True) # return as string with path to file 
-
 ``` 
-![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/common.png)   
+![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/sprint.png)   
 
-Fn params:
-> `c` color [grey, red, green, yellow, blue, magenta, cyan, white]  
-> `b` background [on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan]  
-> `a` attribute  [bold, dark, underline, blink, reverse, concealed]  
-> `p` path [with path to file]  
-> `i` indent [indent 1..40]  
-> `s` string [return as string] 
-> `r` return [print and return as string] 
-> `f` force print [ignore SIMPLE_PRINT_ENABLED=False for docker production logs for example]  
-> `stream` output stream  [stdout, stderr, null]. stdout by default. null means no print.
+> `c` color [grey, red, green, yellow, blue, magenta, cyan, white].
+> `b` background [on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan].
+> `a` attribute  [bold, dark, underline, blink, reverse, concealed].
+> `p` path [True/False] with path to file.
+> `l` light [True/False] print without fn name and lineno (shortcut lsprint). 
+> `i` indent [1..40].
+> `s` string [True/False] return as string.
+> `r` return [True/False] print and return as string.
+> `f` force print [True/False] ignore SIMPLE_PRINT_ENABLED=False for docker production logs for example. 
+> `stream` output stream [stdout, stderr, null]. stdout by default. null means no print.
 
-
+  
 #### Example with indent
+Indent print:
 ```python
-
 def test_indent():
     fruits = ["lemon", "orange", "banana"]
     sprint(fruits, c="green")  
@@ -50,55 +49,63 @@ def test_indent():
 
 ```  
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/indent.png)
+  
+  
+### lsprint 
+Light version of sprint.
+```python
+master = "yoda" # variable name master
+lsprint(master)
+   
+``` 
+![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/lsprint.png)   
 
 
-### SprintErr 🚀 minified error traceback
-Show last 20 error_tb lines (useful for large error tb):  
+### SprintErr  
+Minified error traceback.
 ```python
 from simple_print import SprintErr
 
-with SprintErr(l=20):
-   some_broken_code / 0
-   
+@patch("logging.info", MagicMock(side_effect=[Exception("Something went wrong")]))
+def test_sprint_err(self):
+   with SprintErr(l=30):
+      logging.info("")
+  
 ```
-
-### spprint 🚀 pretty print with indent
-Show last 20 error_tb lines (useful for large error tb):  
+![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/sprint_err.png)
+  
+  
+### spprint
+Pretty print with indent.  
 ```python
 from simple_print import sprrint
 
-spprint({"hello": c"world", "lorem": "ipsum"}, i=20)
-
-                        {
-                           'hello': 'world', 
-                           'lorem': 'ipsum'
-                        }
+spprint(
+   {"hello": c"world", "lorem": "ipsum"}, 
+   i=20,
+)
+  
 ```
-
-
+![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/spprint.png)
+    
+  
 ### ArtEnum 🚀 collection of ascii Art
 ```sh
 from simple_print import ArtEnum
 
 print(ArtEnum.PACMAN_1)
 
-   ,##.                   ,==.
- ,#    #.                 \ o ',
-#        #     _     _     \    \
-#        #    (_)   (_)    /    ; 
- `#    #'                 /   .'  
-   `##'                   "=="
-
 ```
+![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/art_enum.png)
   
-
+   
 ### Env
-Stop printing on production:  
+Stop printing on production:
 ```sh
 export SIMPLE_PRINT_ENABLED=False
 
 ```
-
+  
   
 ### Test 
 ```sh
