@@ -148,8 +148,8 @@ def sprint(
                
             try:
                 arg_name = source.asttokens().get_text(call_node.args[j])
-            except Exception as exc:
-                raise ModuleNotFoundError from exc
+            except Exception:
+                continue
             
             arg_name_not_required = (
                 arg_name == arg
@@ -267,8 +267,8 @@ def lsprint(
                
             try:
                 arg_name = source.asttokens().get_text(call_node.args[j])
-            except Exception as exc:
-                raise ModuleNotFoundError from exc
+            except Exception:
+                continue
             
             arg_name_not_required = (
                 arg_name == arg
