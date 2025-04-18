@@ -1,6 +1,8 @@
+import contextlib
 import sys
 import inspect
 import traceback
+from datetime import datetime
 from typing import Any, Union
 from executing import Source
 from .consts import _HIGHLIGHTS, _ATTRIBUTES, _COLORS, _RESET
@@ -31,12 +33,12 @@ def _colorize(
 def _print(
     arg: Any,
     arg_name: str,
-    c: Union[None, str],
-    b: Union[None, str],
-    a: Union[None, str],
-    i: int,
-    p: bool,
-    l: bool,
+    c: Union[None, str], # noqa: E741
+    b: Union[None, str], # noqa: E741
+    a: Union[None, str], # noqa: E741
+    i: int, # noqa: E741
+    p: bool, # noqa: E741
+    l: bool, # noqa: E741
     function_name: str,
     lineno: int,
     filename: str,
@@ -53,42 +55,34 @@ def _print(
         attrs=[a] if a else [],
     )
     
+    now = datetime.now().strftime("%H:%M:%S")
+    
     if not l:
-        s += _colorize( 
-            f" | {type(arg)} | {lineno} | {function_name}" , 
-            color="green", 
-            on_color=None, 
-            attrs=[],
-        )
-            
-    if p:
-        s += _colorize( 
-            f" | {filename}" , 
-            color="cyan", 
-            on_color=None, 
-            attrs=[],
-        )
+        s += f"\33[90m | {type(arg)} | {lineno} | {function_name} | {now}\033[0m"
         
-    if stream == "stdout":
-        print(s, file=sys.stdout)
-    elif stream == "stderr":
-        print(s, file=sys.stderr)
-    elif stream == "null":
-        # do nothing
-        pass
+    if p:
+        s += f"\33[90m | {filename} \033[0m"
+    
+    match stream:
+        case "stdout":
+            print(s, file=sys.stdout)
+        case "stderr":
+            print(s, file=sys.stderr)
+        case "null":
+            pass
         
 
 def sprint(
     *args,
-    c: Union[None, str] = "white",
-    b: Union[None, str] = None,
-    a: Union[None, str] = None,
-    i: int = 0,
-    p: bool = False,
-    l: bool = False,
-    s: bool = False,
-    r: bool = False,
-    f: bool = False,
+    c: Union[None, str] = "white", # noqa: E741
+    b: Union[None, str] = None, # noqa: E741
+    a: Union[None, str] = None, # noqa: E741
+    i: int = 0, # noqa: E741
+    p: bool = False, # noqa: E741
+    l: bool = False, # noqa: E741
+    s: bool = False, # noqa: E741
+    r: bool = False, # noqa: E741
+    f: bool = False, # noqa: E741
     stream="stdout",
 ) -> str | tuple[Any] | None:
     """Print variable value with its name in code.
@@ -132,6 +126,12 @@ def sprint(
     if SIMPLE_PRINT_ENABLED or f:
         stack = traceback.extract_stack()
         filename, lineno, function_name, code = stack[-2]
+
+        with contextlib.suppress(Exception):
+            filename = "{}/{}".format(
+                filename.split('/')[-2], 
+                filename.split('/')[-1],
+            )
         
         curr_frame = inspect.currentframe()
         if not curr_frame:    
@@ -168,10 +168,11 @@ def sprint(
                 pass
 
             if s:
+                now = datetime.now().strftime("%H:%M:%S")
                 arg_name = (
-                    f"{arg_name} | {type(arg)} | {function_name} | {lineno} | {filename}"
+                    f"{arg_name} | {type(arg)} | {function_name} | {lineno} | {now} | {filename}"
                     if p
-                    else f"{arg_name} | {type(arg)} | {function_name} | {lineno}"
+                    else f"{arg_name} | {type(arg)} | {function_name} | {lineno} | {now}"
                 )
                 arg_names.append(arg_name)
             else:
@@ -204,13 +205,13 @@ def sprint(
 
 def lsprint(
     *args,
-    c: Union[None, str] = "white",
-    b: Union[None, str] = None,
-    a: Union[None, str] = None,
-    i: int = 0,
-    s: bool = False,
-    r: bool = False,
-    f: bool = False,
+    c: Union[None, str] = "white", # noqa: E741
+    b: Union[None, str] = None, # noqa: E741
+    a: Union[None, str] = None, # noqa: E741
+    i: int = 0, # noqa: E741
+    s: bool = False, # noqa: E741
+    r: bool = False, # noqa: E741
+    f: bool = False, # noqa: E741
     stream="stdout",
     **kwargs,
 ) -> str | tuple[Any] | None:
