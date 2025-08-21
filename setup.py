@@ -2,7 +2,7 @@ import setuptools
 
 
 __author__ = "Sobolev Andrey <email.asobolev@gmail.com>"
-__version__ = "2.2.5"
+__version__ = "2.2.6"
 
 
 with open("README.md", "r") as fh:
@@ -15,7 +15,7 @@ setuptools.setup(
     install_requires=["executing==2.0.1", "asttokens==2.4.1"],
     author="Sobolev Andrey",
     author_email="email.asobolev@gmail.com",
-    description="Useful console tools for local development",
+    description="Local development tool for logs printing.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),

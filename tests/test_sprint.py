@@ -7,6 +7,7 @@ def test_sprint():
 
     Run:
         pytest tests/test_sprint.py::test_sprint -s
+
     """
 
     # common
@@ -83,12 +84,12 @@ def test_sprint():
         sprint(fruit, c="yellow", i=4)
 
 
-
 def test_lsprint():
     """Test lsprint.
 
     Run:
         pytest tests/test_sprint.py::test_lsprint -s
+
     """
 
     # common

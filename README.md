@@ -1,6 +1,5 @@
 # Simple print
-Collection of console print utilities.  
-Userful for local development.
+Local development tool for logs printing.
 
 ```no-highlight
 https://github.com/Sobolev5/simple-print
@@ -89,16 +88,6 @@ spprint(
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/spprint.png)
     
   
-### ArtEnum 🚀 collection of ascii Art
-```sh
-from simple_print import ArtEnum
-
-print(ArtEnum.PACMAN_1)
-
-```
-![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/art_enum.png)
-  
-   
 ### Env
 Stop printing on production:
 ```sh
@@ -109,6 +98,6 @@ export SIMPLE_PRINT_ENABLED=False
   
 ### Test 
 ```sh
-tox
+pytest -s
 
 ```

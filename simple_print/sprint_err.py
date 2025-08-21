@@ -41,7 +41,7 @@ def SprintErr(l: int = 20):  # noqa
             ei = sys.exc_info()
             print(
                 _colorize(
-                    f"\n▒ 😈 {function_name} lineno={lineno}\n"
+                    f"\n▒ {function_name} lineno={lineno}\n"
                     f"▒ u {filename}\n"
                     f"{format_exception(ei)}",
                     color="red",
