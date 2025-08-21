@@ -6,5 +6,7 @@ def test_spprint():
 
     Run:
         pytest tests/test_spprint.py -s
+
     """
+
     spprint({"hello":"world", "lorem": "ipsum"}, i=20)

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "simple-print"
 version = "2.2.5"
-description = ""
+description = "Local development tool for logs printing."
 authors = ["Sobolev Andrey <email.asobolev@gmail.com>"]
 readme = "README.md"
 packages = [{include = "simple_print"}]
@@ -9,6 +9,7 @@ packages = [{include = "simple_print"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 executing = "^2.0.1"
+pytest-asyncio = "0.21.2"
 
 [build-system]
 requires = ["poetry-core"]

@@ -12,4 +12,9 @@ def spprint(
         data (dict): dict
         i (int, optional): indent. Defaults to 0.
     """
-    print(indent(pformat(data), " " * i))
+    print(
+        indent(
+            pformat(data), 
+            " " * i,
+        ),
+    )
