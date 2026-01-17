@@ -25,16 +25,16 @@ master_as_s_with_path = sprint(master, s=True, p=True) # return as string with p
 ``` 
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/sprint.png)   
 
-> `c` color [grey, red, green, yellow, blue, magenta, cyan, white].
-> `b` background [on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan].
-> `a` attribute  [bold, dark, underline, blink, reverse, concealed].
-> `p` path [True/False] with path to file.
-> `l` light [True/False] print without fn name and lineno (shortcut lsprint). 
-> `i` indent [1..40].
-> `s` string [True/False] return as string.
-> `r` return [True/False] print and return as string.
-> `f` force print [True/False] ignore SIMPLE_PRINT_ENABLED=False for docker production logs for example. 
-> `stream` output stream [stdout, stderr, null]. stdout by default. null means no print.
+> `c` color [grey, red, green, yellow, blue, magenta, cyan, white].  
+> `b` background [on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan].  
+> `a` attribute  [bold, dark, underline, blink, reverse, concealed].  
+> `p` path [True/False] with path to file.  
+> `l` light [True/False] print without fn name and lineno (shortcut lsprint).   
+> `i` indent [1..40].  
+> `s` string [True/False] return as string.  
+> `r` return [True/False] print and return as string.  
+> `f` force print [True/False] ignore SIMPLE_PRINT_ENABLED=False for docker production logs for example.  
+> `stream` output stream [stdout, stderr, null]. stdout by default. null means no print.  
 
   
 #### Example with indent
