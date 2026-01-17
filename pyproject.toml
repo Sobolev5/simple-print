@@ -1,16 +1,23 @@
-[tool.poetry]
+[project]
 name = "simple-print"
-version = "2.2.5"
+version = "2.2.7"
 description = "Local development tool for logs printing."
-authors = ["Sobolev Andrey <email.asobolev@gmail.com>"]
 readme = "README.md"
-packages = [{include = "simple_print"}]
+requires-python = ">=3.11"
+authors = [
+  { name = "Sobolev Andrey", email = "email.asobolev@gmail.com" },
+]
+dependencies = [
+  "executing==2.2.1",
+  "asttokens==3.0.1",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-executing = "^2.0.1"
-pytest-asyncio = "0.21.2"
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+

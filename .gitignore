@@ -225,3 +225,9 @@ requirements.txt
 # pytest
 report.xml
 .DS_Store
+
+# uv
+uv.lock
+
+# pypi
+.pypirc
