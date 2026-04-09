@@ -1,6 +1,6 @@
 [project]
 name = "simple-print"
-version = "2.2.7.post1"
+version = "2.2.8"
 description = "Local development tool for logs printing."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -12,6 +12,9 @@ dependencies = [
   "asttokens==3.0.1",
 ]
 
+[tool.setuptools]
+packages = ["simple_print"]
+
 [project.optional-dependencies]
 dev = [
     "pytest>=8.2",
@@ -21,4 +24,3 @@ dev = [
 [build-system]
 requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
-
