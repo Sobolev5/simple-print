@@ -11,6 +11,11 @@ To install run:
 pip install simple-print
 ```
 
+### Features
+- Variable value on the first line, metadata (type, file, line, function, time) on the second line
+- Clickable file paths in terminal output — Cmd+click (macOS) or Ctrl+click (Linux/Windows) to jump to source  
+- Colors, backgrounds, attributes, indentation
+
 ### sprint 
 Print variables with its names:
 ```python
@@ -29,7 +34,7 @@ master_as_s_with_path = sprint(master, s=True, p=True) # return as string with p
 > `b` background [on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan].  
 > `a` attribute  [bold, dark, underline, blink, reverse, concealed].  
 > `p` path [True/False] with path to file.  
-> `l` light [True/False] print without fn name and lineno (shortcut lsprint).   
+> `l` light [True/False] print without fn name and lineno (shortcut lprint).   
 > `i` indent [1..40].  
 > `s` string [True/False] return as string.  
 > `r` return [True/False] print and return as string.  
@@ -50,39 +55,36 @@ def test_indent():
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/indent.png)
   
   
-### lsprint 
-Light version of sprint.
+### lprint 
+Light version of sprint (no metadata line). Also available as `lsprint` for backward compatibility.
 ```python
 master = "yoda" # variable name master
-lsprint(master)
+lprint(master)
    
 ``` 
-![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/lsprint.png)   
+![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/lprint.png)   
 
 
 ### SprintErr  
-Minified error traceback.
+Minified error traceback with box frame.
 ```python
 from simple_print import SprintErr
 
-@patch("logging.info", MagicMock(side_effect=[Exception("Something went wrong")]))
-def test_sprint_err(self):
-   with SprintErr(l=30):
-      logging.info("")
+bob = []
+with SprintErr(l=30):
+    bob[2]  # pretty error traceback (show 30 lines)
   
 ```
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/sprint_err.png)
   
   
 ### spprint
-Pretty print with indent.  
+Pretty print dict with box frame.  
 ```python
-from simple_print import sprrint
+from simple_print import spprint
 
-spprint(
-   {"hello": c"world", "lorem": "ipsum"}, 
-   i=20,
-)
+spprint({"hello": "world", "lorem": "ipsum"})
+spprint({"hello": "world", "lorem": "ipsum"}, i=20)  # with indent
   
 ```
 ![](https://github.com/Sobolev5/simple-print/blob/master/screenshots/spprint.png)

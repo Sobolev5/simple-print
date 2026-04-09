@@ -1,5 +1,5 @@
 from simple_print import sprint
-from simple_print import lsprint
+from simple_print import lprint
 
 
 def test_sprint():
@@ -84,11 +84,11 @@ def test_sprint():
         sprint(fruit, c="yellow", i=4)
 
 
-def test_lsprint():
-    """Test lsprint.
+def test_lprint():
+    """Test lprint.
 
     Run:
-        pytest tests/test_sprint.py::test_lsprint -s
+        pytest tests/test_sprint.py::test_lprint -s
 
     """
 
@@ -113,54 +113,54 @@ def test_lsprint():
         print("*" * 30, type(case), "*" * 30)
         if i < 1:
             case_1 = "multi arg example"
-            lsprint(case, case_1)
-        lsprint(case)
-        lsprint(case, c="green", i=i)
-        lsprint(case, c="blue", b="on_white")
-        lsprint(case, c="blue", b="on_white", a="underline")
-        lsprint(case, c="blue", b="on_white", a="bold", p=True)
-        my_string = lsprint(case, s=True)
+            lprint(case, case_1)
+        lprint(case)
+        lprint(case, c="green", i=i)
+        lprint(case, c="blue", b="on_white")
+        lprint(case, c="blue", b="on_white", a="underline")
+        lprint(case, c="blue", b="on_white", a="bold", p=True)
+        my_string = lprint(case, s=True)
         print(my_string)
-        my_string = lsprint(case, s=True, p=True)
+        my_string = lprint(case, s=True, p=True)
         print(my_string)
 
     # f string
     some_var = "some_value"
-    lsprint(f"some_var={some_var}")
+    lprint(f"some_var={some_var}")
 
     # format
     some_var = "some_value"
-    lsprint("some_var={}".format(some_var))
+    lprint("some_var={}".format(some_var))
 
     # %
     some_var = "some_value"
-    lsprint("some_var=%s" % some_var)
+    lprint("some_var=%s" % some_var)
 
     # README.md case
     print("\n\n")
     master = "yoda"
-    lsprint(master)
-    lsprint(
+    lprint(master)
+    lprint(
         master, c="magenta"
     )  # colors: grey, red, green, yellow, blue, magenta, cyan, white.
-    lsprint(
+    lprint(
         master, c="white", b="on_blue"
     )  # backgrounds: on_grey, on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan
-    lsprint(
+    lprint(
         master, c="white", b="on_green", a="underline"
     )  # attributes: bold, dark, underline, blink, reverse, concealed
-    lsprint(master, c="blue", b="on_white", a="bold", p=True)  #
-    my_string = lsprint(master, s=True)  # return as string
-    my_string = lsprint(master, s=True, p=True)  # return as string with path to file
+    lprint(master, c="blue", b="on_white", a="bold", p=True)  #
+    my_string = lprint(master, s=True)  # return as string
+    my_string = lprint(master, s=True, p=True)  # return as string with path to file
 
     # stderr
     print("\n\n")
-    lsprint("print to stderr", stream="stderr")
+    lprint("print to stderr", stream="stderr")
 
     # indent
     print("\n\n")
     fruits = ["lemon", "orange", "banana"]
-    lsprint(fruits, c="green")
+    lprint(fruits, c="green")
 
     for fruit in fruits:
-        lsprint(fruit, c="yellow", i=4, p=1)
+        lprint(fruit, c="yellow", i=4, p=1)

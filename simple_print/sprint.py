@@ -1,7 +1,6 @@
 import contextlib
 import sys
 import inspect
-import traceback
 from datetime import datetime
 from typing import Any, Union
 from executing import Source
@@ -10,9 +9,9 @@ from .consts import SIMPLE_PRINT_ENABLED
 
 
 def _colorize(
-    text, 
-    color=None, 
-    on_color=None, 
+    text,
+    color=None,
+    on_color=None,
     attrs=None,
 ) -> str:
     fmt_str = "\033[%dm%s"
@@ -42,27 +41,39 @@ def _print(
     function_name: str,
     lineno: int,
     filename: str,
+    short_filename: str,
     stream="stdout",
 ) -> None:
 
-    if i in range(1, 41):
+    if 1 <= i <= 40:
         arg_name = "{} {}".format(" " * i, arg_name)
-        
-    s = _colorize(
-        f"▒ {arg_name} ", 
-        color=c, 
-        on_color=b, 
+
+    line1 = _colorize(
+        f"▒ {arg_name} ",
+        color=c,
+        on_color=b,
         attrs=[a] if a else [],
     )
-    
+
     now = datetime.now().strftime("%H:%M:%S")
-    
+
+    info_parts = []
     if not l:
-        s += f"\33[90m | {type(arg)} | {lineno} | {function_name} | {now}\033[0m"
-        
+        info_parts.append(f"{type(arg)}")
+        info_parts.append(f"{filename}:{lineno}")
+        info_parts.append(function_name)
+        info_parts.append(now)
+
     if p:
-        s += f"\33[90m | {filename} \033[0m"
-    
+        info_parts.append(short_filename)
+
+    if info_parts:
+        indent = " " * i if 1 <= i <= 40 else ""
+        line2 = f"\33[2m\33[90m{indent}  ╰ {' | '.join(info_parts)}\033[0m"
+        s = f"{line1}\n{line2}"
+    else:
+        s = line1
+
     match stream:
         case "stdout":
             print(s, file=sys.stdout)
@@ -70,7 +81,7 @@ def _print(
             print(s, file=sys.stderr)
         case "null":
             pass
-        
+
 
 def sprint(
     *args,
@@ -84,6 +95,7 @@ def sprint(
     r: bool = False, # noqa: E741
     f: bool = False, # noqa: E741
     stream="stdout",
+    _stack_offset: int = 1,
 ) -> str | tuple[Any] | None:
     """Print variable value with its name in code.
 
@@ -103,7 +115,7 @@ def sprint(
         i (int, optional): indent. Defaults to 0.
 
         p (bool, optional): path to file. Defaults to False.
-        
+
         l (bool, optional): print without fn name and lineno. Defaults to False.
 
         s (bool, optional): return string. Defaults to False.
@@ -124,20 +136,24 @@ def sprint(
     """
 
     if SIMPLE_PRINT_ENABLED or f:
-        stack = traceback.extract_stack()
-        filename, lineno, function_name, code = stack[-2]
+        curr_frame = inspect.currentframe()
+        if not curr_frame:
+            return None
 
+        call_frame = curr_frame
+        for _ in range(_stack_offset):
+            call_frame = call_frame.f_back
+        filename = call_frame.f_code.co_filename
+        lineno = call_frame.f_lineno
+        function_name = call_frame.f_code.co_name
+
+        short_filename = filename
         with contextlib.suppress(Exception):
-            filename = "{}/{}".format(
-                filename.split('/')[-2], 
+            short_filename = "{}/{}".format(
+                filename.split('/')[-2],
                 filename.split('/')[-1],
             )
-        
-        curr_frame = inspect.currentframe()
-        if not curr_frame:    
-            return None
-        
-        call_frame = curr_frame.f_back
+
         call_node = Source.executing(call_frame).node
         source = Source.for_frame(call_frame)
 
@@ -145,12 +161,12 @@ def sprint(
             arg_names = []
 
         for j, arg in enumerate(args):
-               
+
             try:
                 arg_name = source.asttokens().get_text(call_node.args[j])
             except Exception:
                 continue
-            
+
             arg_name_not_required = (
                 arg_name == arg
                 or arg_name.strip('"').strip("'") == arg
@@ -170,9 +186,9 @@ def sprint(
             if s:
                 now = datetime.now().strftime("%H:%M:%S")
                 arg_name = (
-                    f"{arg_name} | {type(arg)} | {function_name} | {lineno} | {now} | {filename}"
+                    f"{arg_name} | {type(arg)} | {function_name} | {filename}:{lineno} | {now} | {short_filename}"
                     if p
-                    else f"{arg_name} | {type(arg)} | {function_name} | {lineno} | {now}"
+                    else f"{arg_name} | {type(arg)} | {function_name} | {filename}:{lineno} | {now}"
                 )
                 arg_names.append(arg_name)
             else:
@@ -188,6 +204,7 @@ def sprint(
                     function_name,
                     lineno,
                     filename,
+                    short_filename,
                     stream=stream,
                 )
 
@@ -199,11 +216,11 @@ def sprint(
                 return args[0]
             else:
                 return args
-            
+
     return None
 
 
-def lsprint(
+def lprint(
     *args,
     c: Union[None, str] = "white", # noqa: E741
     b: Union[None, str] = None, # noqa: E741
@@ -215,7 +232,7 @@ def lsprint(
     stream="stdout",
     **kwargs,
 ) -> str | tuple[Any] | None:
-    """Print variable value with its name in code.
+    """Print variable value with its name in code (lightweight, no meta info line).
 
     Args:
         c (Union[None, str], optional): color.
@@ -244,71 +261,12 @@ def lsprint(
     Example:
 
     bob = 1
-    lsprint(bob)
+    lprint(bob)
     >>> bob = 1
 
     """
+    return sprint(*args, c=c, b=b, a=a, i=i, p=False, l=True, s=s, r=r, f=f, stream=stream, _stack_offset=2)
 
-    if SIMPLE_PRINT_ENABLED or f:
-        stack = traceback.extract_stack()
-        filename, lineno, function_name, code = stack[-2]
-        
-        curr_frame = inspect.currentframe()
-        if not curr_frame:    
-            return None
-        
-        call_frame = curr_frame.f_back
-        call_node = Source.executing(call_frame).node
-        source = Source.for_frame(call_frame)
 
-        if s:
-            arg_names = []
-
-        for j, arg in enumerate(args):
-               
-            try:
-                arg_name = source.asttokens().get_text(call_node.args[j])
-            except Exception:
-                continue
-            
-            arg_name_not_required = (
-                arg_name == arg
-                or arg_name.strip('"').strip("'") == arg
-                or arg_name.startswith('f"')
-                or arg_name.startswith("f'")
-                or ".format" in arg_name
-                or "%" in arg_name
-            )
-            arg_name = f"{arg}" if arg_name_not_required else f"{arg_name} = {arg}"
-
-            try:
-                if hasattr(arg, "id") and arg.id:
-                    arg_name += f" ID={arg.id}"
-            except (AttributeError, Exception):
-                pass
-
-            _print(
-                arg,
-                arg_name,
-                c,
-                b,
-                a,
-                i,
-                False,
-                True,
-                function_name,
-                lineno,
-                filename,
-                stream=stream,
-            )
-
-        if s:
-            return ";".join(arg_names)
-
-        if r:
-            if len(args) == 1:
-                return args[0]
-            else:
-                return args
-            
-    return None
+# backward compatibility alias
+lsprint = lprint

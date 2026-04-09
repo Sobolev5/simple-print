@@ -2,50 +2,20 @@ import os
 
 _YES = ("1", "true", "yes", "y")
 
-_ATTRIBUTES = dict(
-    list(
-        zip(
-            ["bold", "dark", "", "underline", "blink", "", "reverse", "concealed"],
-            list(range(1, 9)),
-        )
-    )
-)
+_ATTRIBUTES = dict(zip(
+    ["bold", "dark", "", "underline", "blink", "", "reverse", "concealed"],
+    range(1, 9),
+))
 
-_HIGHLIGHTS = dict(
-    list(
-        zip(
-            [
-                "on_grey",
-                "on_red",
-                "on_green",
-                "on_yellow",
-                "on_blue",
-                "on_magenta",
-                "on_cyan",
-                "on_white",
-            ],
-            list(range(40, 48)),
-        )
-    )
-)
+_HIGHLIGHTS = dict(zip(
+    ["on_grey", "on_red", "on_green", "on_yellow", "on_blue", "on_magenta", "on_cyan", "on_white"],
+    range(40, 48),
+))
 
-_COLORS = dict(
-    list(
-        zip(
-            [
-                "grey",
-                "red",
-                "green",
-                "yellow",
-                "blue",
-                "magenta",
-                "cyan",
-                "white",
-            ],
-            list(range(30, 39)),
-        )
-    )
-)
+_COLORS = dict(zip(
+    ["grey", "red", "green", "yellow", "blue", "magenta", "cyan", "white"],
+    range(30, 39),
+))
 
 _RESET = "\033[0m"
 

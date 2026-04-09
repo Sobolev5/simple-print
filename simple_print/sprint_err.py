@@ -21,17 +21,6 @@ def SprintErr(l: int = 20):  # noqa
 
     """
 
-    def format_exception(ei) -> str:
-        sio = io.StringIO()
-        tb = ei[2]
-        traceback.print_exception(ei[0], ei[1], tb, None, sio)
-        printed_tb = sio.getvalue()
-        sio.close()
-        s = ""
-        for tb_line in printed_tb.splitlines()[-l:]:
-            s += "▒ " + tb_line + "\n"
-        return s
-
     if SIMPLE_PRINT_ENABLED:
         stack = traceback.extract_stack()
         filename, lineno, function_name, code = stack[-3]
@@ -39,11 +28,27 @@ def SprintErr(l: int = 20):  # noqa
             yield
         except Exception:
             ei = sys.exc_info()
-            print(
-                _colorize(
-                    f"\n▒ {function_name} lineno={lineno}\n"
-                    f"▒ u {filename}\n"
-                    f"{format_exception(ei)}",
-                    color="red",
-                )
+            exception_type = ei[0].__name__
+            exception_msg = str(ei[1])
+            sio = io.StringIO()
+            traceback.print_exception(ei[0], ei[1], ei[2], None, sio)
+            tb_lines = sio.getvalue().splitlines()[-l:]
+            sio.close()
+            title = f"─ {exception_type}: {exception_msg} "
+            location_text = f"{filename}:{lineno} in {function_name}"
+            max_tb = max((len(line) for line in tb_lines), default=0)
+            box_width = max(max_tb, len(title), len(location_text), 40)
+            header = f"  ┌{title}{'─' * max(0, box_width + 2 - len(title))}┐"
+            footer = f"  └{'─' * (box_width + 2)}┘"
+            location = f"  │ {location_text.ljust(box_width)} │"
+            tb_body = ""
+            for tb_line in tb_lines:
+                tb_body += f"  │ {tb_line.ljust(box_width)} │\n"
+            output = (
+                f"\n{header}\n"
+                f"{location}\n"
+                f"  │{' ' * (box_width + 2)}│\n"
+                f"{tb_body}"
+                f"{footer}\n"
             )
+            print(_colorize(output, color="red"))
